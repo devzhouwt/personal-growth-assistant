@@ -350,7 +350,7 @@
         "date": "2026-07-03",
         "goalId": "id-7ywzd5eoqmr37wbs3",
         "dailyQuantity": 1,
-        "isCompleted": false,
+        "isCompleted": true,
         "remark": "整理房间"
       },
       {
