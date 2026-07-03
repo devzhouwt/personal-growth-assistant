@@ -89,7 +89,7 @@
         "date": "2026-07-03",
         "goalId": "id-0xb6v4sjhmr21pcbb",
         "dailyQuantity": 15,
-        "isCompleted": false,
+        "isCompleted": true,
         "remark": "370-385"
       },
       {
