@@ -1,0 +1,771 @@
+{
+  "2026-06-29": {
+    "goals": [
+      {
+        "goalId": "id-cs7zva5ljmr2v20rw",
+        "weekIdentifier": "2026-06-29",
+        "taskName": "作息改善-早起",
+        "totalQuantity": 7,
+        "unit": "次",
+        "scoreWeight": 7,
+        "attendanceBonusRatio": 0
+      },
+      {
+        "goalId": "id-tued7wiztmr2uz134",
+        "weekIdentifier": "2026-06-29",
+        "taskName": "练习吉他",
+        "totalQuantity": 5,
+        "unit": "小时",
+        "scoreWeight": 8,
+        "attendanceBonusRatio": 0.15
+      },
+      {
+        "goalId": "id-0xb6v4sjhmr21pcbb",
+        "weekIdentifier": "2026-06-29",
+        "taskName": "阅读《游戏设计艺术》",
+        "totalQuantity": 55,
+        "unit": "页",
+        "scoreWeight": 10,
+        "attendanceBonusRatio": 0.2
+      },
+      {
+        "goalId": "id-kyq2t89ukmr2uwx6z",
+        "weekIdentifier": "2026-06-29",
+        "taskName": "Qoder学习",
+        "totalQuantity": 3,
+        "unit": "小时",
+        "scoreWeight": 20,
+        "attendanceBonusRatio": 0.25
+      },
+      {
+        "goalId": "id-r1xs5rauwmr21pnmm",
+        "weekIdentifier": "2026-06-29",
+        "taskName": "锻炼",
+        "totalQuantity": 150,
+        "unit": "分钟",
+        "scoreWeight": 30,
+        "attendanceBonusRatio": 0.16
+      },
+      {
+        "goalId": "id-7ywzd5eoqmr37wbs3",
+        "weekIdentifier": "2026-06-29",
+        "taskName": "内务整理",
+        "totalQuantity": 3,
+        "unit": "次",
+        "scoreWeight": 9,
+        "attendanceBonusRatio": 0
+      },
+      {
+        "goalId": "id-ypnkluuenmr2v2v4u",
+        "weekIdentifier": "2026-06-29",
+        "taskName": "作息改善-早睡",
+        "totalQuantity": 7,
+        "unit": "次",
+        "scoreWeight": 16,
+        "attendanceBonusRatio": 0.2
+      }
+    ],
+    "dailyTasks": [
+      {
+        "taskId": "id-6oewq7a7jmr21pvo3",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-06-29",
+        "goalId": "id-0xb6v4sjhmr21pcbb",
+        "dailyQuantity": 10,
+        "isCompleted": true
+      },
+      {
+        "taskId": "id-mpa6mp6f2mr21pybq",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-01",
+        "goalId": "id-0xb6v4sjhmr21pcbb",
+        "dailyQuantity": 15,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-07vvka7hmmr21q22w",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-03",
+        "goalId": "id-0xb6v4sjhmr21pcbb",
+        "dailyQuantity": 15,
+        "isCompleted": false,
+        "remark": "370-385"
+      },
+      {
+        "taskId": "id-31u87rvxgmr21q5k4",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-05",
+        "goalId": "id-0xb6v4sjhmr21pcbb",
+        "dailyQuantity": 15,
+        "isCompleted": false,
+        "remark": "385-400"
+      },
+      {
+        "taskId": "id-849cugq1imr21qgrv",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-06-30",
+        "goalId": "id-r1xs5rauwmr21pnmm",
+        "dailyQuantity": 30,
+        "isCompleted": true,
+        "remark": "腹部"
+      },
+      {
+        "taskId": "id-cyp6uuu6zmr21qpm0",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-04",
+        "goalId": "id-r1xs5rauwmr21pnmm",
+        "dailyQuantity": 60,
+        "isCompleted": false,
+        "remark": "乒乓球"
+      },
+      {
+        "taskId": "id-y8ea7qopomr3d6dgi",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-06-29",
+        "goalId": "id-cs7zva5ljmr2v20rw",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-fxbqm44mvmr3d6neo",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-06-30",
+        "goalId": "id-cs7zva5ljmr2v20rw",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-li7k3z1lemr3d6raf",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-01",
+        "goalId": "id-cs7zva5ljmr2v20rw",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-yxkcnjhkjmr3d6tba",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-02",
+        "goalId": "id-cs7zva5ljmr2v20rw",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-aevare13wmr3d6uou",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-03",
+        "goalId": "id-cs7zva5ljmr2v20rw",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-zbmdw91j3mr3d6vzw",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-04",
+        "goalId": "id-cs7zva5ljmr2v20rw",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-74hg7m2tpmr3d6x8o",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-05",
+        "goalId": "id-cs7zva5ljmr2v20rw",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-l1cw2xrkcmr3d74b6",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-06-29",
+        "goalId": "id-ypnkluuenmr2v2v4u",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-fbdha2npgmr3d782b",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-06-30",
+        "goalId": "id-ypnkluuenmr2v2v4u",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-etyacuvzfmr3d79nl",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-01",
+        "goalId": "id-ypnkluuenmr2v2v4u",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-180ywp5abmr3d7b1r",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-02",
+        "goalId": "id-ypnkluuenmr2v2v4u",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-fdewaitwxmr3d7chg",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-03",
+        "goalId": "id-ypnkluuenmr2v2v4u",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-wirn1ljntmr3d7duk",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-04",
+        "goalId": "id-ypnkluuenmr2v2v4u",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-waahvkrz6mr3d7fhp",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-05",
+        "goalId": "id-ypnkluuenmr2v2v4u",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-93zfrxqagmr3d7ph5",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-06-29",
+        "goalId": "id-tued7wiztmr2uz134",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-42wqoyr38mr3d7ryo",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-06-30",
+        "goalId": "id-tued7wiztmr2uz134",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-3g0q8r0gfmr3d7ter",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-01",
+        "goalId": "id-tued7wiztmr2uz134",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-4ado3guwcmr3d7umx",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-02",
+        "goalId": "id-tued7wiztmr2uz134",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-rl4jqi975mr3d7vxy",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-03",
+        "goalId": "id-tued7wiztmr2uz134",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-pked5sf27mr3d9st5",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-06-30",
+        "goalId": "id-kyq2t89ukmr2uwx6z",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-552dra4zsmr3d9zp7",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-02",
+        "goalId": "id-kyq2t89ukmr2uwx6z",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": ""
+      },
+      {
+        "taskId": "id-goviitlzzmr3da5sg",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-04",
+        "goalId": "id-kyq2t89ukmr2uwx6z",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-2it8sj9rkmr3db2mg",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-02",
+        "goalId": "id-r1xs5rauwmr21pnmm",
+        "dailyQuantity": 30,
+        "isCompleted": false,
+        "remark": "胸部"
+      },
+      {
+        "taskId": "id-6c6lr87f6mr3dc3tq",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-05",
+        "goalId": "id-r1xs5rauwmr21pnmm",
+        "dailyQuantity": 30,
+        "isCompleted": false,
+        "remark": "背部"
+      },
+      {
+        "taskId": "id-mvscnr96mmr3dcft4",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-06-29",
+        "goalId": "id-7ywzd5eoqmr37wbs3",
+        "dailyQuantity": 1,
+        "isCompleted": true,
+        "remark": "洗衣服"
+      },
+      {
+        "taskId": "id-47aix0t6imr3dcvnl",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-03",
+        "goalId": "id-7ywzd5eoqmr37wbs3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": "整理房间"
+      },
+      {
+        "taskId": "id-g95h50x87mr3dd3uh",
+        "weekIdentifier": "2026-06-29",
+        "date": "2026-07-05",
+        "goalId": "id-7ywzd5eoqmr37wbs3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": "扫地拖地"
+      }
+    ],
+    "scoreMode": true
+  },
+  "2026-07-06": {
+    "goals": [
+      {
+        "goalId": "id-yk2o3cpgymr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "taskName": "作息改善-早起",
+        "totalQuantity": 7,
+        "unit": "次",
+        "scoreWeight": 7,
+        "attendanceBonusRatio": 0
+      },
+      {
+        "goalId": "id-zgtoto7iymr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "taskName": "练习吉他",
+        "totalQuantity": 5,
+        "unit": "小时",
+        "scoreWeight": 8,
+        "attendanceBonusRatio": 0.15
+      },
+      {
+        "goalId": "id-vajj9mj45mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "taskName": "阅读《游戏设计艺术》",
+        "totalQuantity": 55,
+        "unit": "页",
+        "scoreWeight": 10,
+        "attendanceBonusRatio": 0.2
+      },
+      {
+        "goalId": "id-rl10bfd1jmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "taskName": "Qoder学习",
+        "totalQuantity": 3,
+        "unit": "小时",
+        "scoreWeight": 20,
+        "attendanceBonusRatio": 0.25
+      },
+      {
+        "goalId": "id-fiabcrkz7mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "taskName": "锻炼",
+        "totalQuantity": 150,
+        "unit": "分钟",
+        "scoreWeight": 30,
+        "attendanceBonusRatio": 0.16
+      },
+      {
+        "goalId": "id-hjk5qixvomr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "taskName": "内务整理",
+        "totalQuantity": 3,
+        "unit": "次",
+        "scoreWeight": 9,
+        "attendanceBonusRatio": 0
+      },
+      {
+        "goalId": "id-o3ris4icxmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "taskName": "作息改善-早睡",
+        "totalQuantity": 7,
+        "unit": "次",
+        "scoreWeight": 16,
+        "attendanceBonusRatio": 0.2
+      }
+    ],
+    "dailyTasks": [
+      {
+        "taskId": "id-934kot1evmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-06",
+        "goalId": "id-vajj9mj45mr3dzwu3",
+        "dailyQuantity": 10,
+        "isCompleted": false
+      },
+      {
+        "taskId": "id-c98h43mj1mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-08",
+        "goalId": "id-vajj9mj45mr3dzwu3",
+        "dailyQuantity": 15,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-169be8zl0mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-10",
+        "goalId": "id-vajj9mj45mr3dzwu3",
+        "dailyQuantity": 15,
+        "isCompleted": false,
+        "remark": "370-385"
+      },
+      {
+        "taskId": "id-2dhk0seskmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-12",
+        "goalId": "id-vajj9mj45mr3dzwu3",
+        "dailyQuantity": 15,
+        "isCompleted": false,
+        "remark": "385-400"
+      },
+      {
+        "taskId": "id-c54ktmeaqmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-07",
+        "goalId": "id-fiabcrkz7mr3dzwu3",
+        "dailyQuantity": 30,
+        "isCompleted": false,
+        "remark": "腹部"
+      },
+      {
+        "taskId": "id-0bp8yho7bmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-11",
+        "goalId": "id-fiabcrkz7mr3dzwu3",
+        "dailyQuantity": 60,
+        "isCompleted": false,
+        "remark": "乒乓球"
+      },
+      {
+        "taskId": "id-0zpmgrqkpmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-06",
+        "goalId": "id-yk2o3cpgymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-xvhtd1eanmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-07",
+        "goalId": "id-yk2o3cpgymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-524zswr6kmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-08",
+        "goalId": "id-yk2o3cpgymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-1ge3r2yn1mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-09",
+        "goalId": "id-yk2o3cpgymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-of9dxyvtwmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-10",
+        "goalId": "id-yk2o3cpgymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-ga4cbc4x1mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-11",
+        "goalId": "id-yk2o3cpgymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-qmte7fwgpmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-12",
+        "goalId": "id-yk2o3cpgymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-gk3xw9y2qmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-06",
+        "goalId": "id-o3ris4icxmr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-tlpu0d3j5mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-07",
+        "goalId": "id-o3ris4icxmr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-s7csnszfpmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-08",
+        "goalId": "id-o3ris4icxmr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-bbn2x2webmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-09",
+        "goalId": "id-o3ris4icxmr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-g669ri9d1mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-10",
+        "goalId": "id-o3ris4icxmr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-ewd7vrabnmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-11",
+        "goalId": "id-o3ris4icxmr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-f2l073onzmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-12",
+        "goalId": "id-o3ris4icxmr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-968grm89vmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-06",
+        "goalId": "id-zgtoto7iymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-3ft97wxr0mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-07",
+        "goalId": "id-zgtoto7iymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-an31zb38ymr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-08",
+        "goalId": "id-zgtoto7iymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-hoco0crsxmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-09",
+        "goalId": "id-zgtoto7iymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-pxcztxhytmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-10",
+        "goalId": "id-zgtoto7iymr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-g76p031bvmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-07",
+        "goalId": "id-rl10bfd1jmr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-t198vvqc9mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-09",
+        "goalId": "id-rl10bfd1jmr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-tp6ncdpffmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-11",
+        "goalId": "id-rl10bfd1jmr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": ""
+      },
+      {
+        "taskId": "id-fjoezkgwimr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-09",
+        "goalId": "id-fiabcrkz7mr3dzwu3",
+        "dailyQuantity": 30,
+        "isCompleted": false,
+        "remark": "胸部"
+      },
+      {
+        "taskId": "id-xifzk4p7wmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-12",
+        "goalId": "id-fiabcrkz7mr3dzwu3",
+        "dailyQuantity": 30,
+        "isCompleted": false,
+        "remark": "背部"
+      },
+      {
+        "taskId": "id-5wi9rdlrfmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-06",
+        "goalId": "id-hjk5qixvomr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": "洗衣服"
+      },
+      {
+        "taskId": "id-0xzynbugfmr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-10",
+        "goalId": "id-hjk5qixvomr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": "整理房间"
+      },
+      {
+        "taskId": "id-31dgir0k5mr3dzwu3",
+        "weekIdentifier": "2026-07-06",
+        "date": "2026-07-12",
+        "goalId": "id-hjk5qixvomr3dzwu3",
+        "dailyQuantity": 1,
+        "isCompleted": false,
+        "remark": "扫地拖地"
+      }
+    ],
+    "scoreMode": true
+  },
+  "2026-07-13": {
+    "goals": [],
+    "dailyTasks": [],
+    "scoreMode": true
+  },
+  "2026-07-20": {
+    "goals": [
+      {
+        "goalId": "id-n2it7yj03mr2vjt4w",
+        "weekIdentifier": "2026-07-20",
+        "taskName": "1",
+        "totalQuantity": 3,
+        "unit": "次",
+        "scoreWeight": 100,
+        "attendanceBonusRatio": 0
+      }
+    ],
+    "dailyTasks": [
+      {
+        "taskId": "id-3hwhimjxvmr2vjt4w",
+        "weekIdentifier": "2026-07-20",
+        "date": "2026-07-20",
+        "goalId": "id-n2it7yj03mr2vjt4w",
+        "dailyQuantity": 1,
+        "isCompleted": false
+      },
+      {
+        "taskId": "id-landt2xbfmr2vjt4w",
+        "weekIdentifier": "2026-07-20",
+        "date": "2026-07-22",
+        "goalId": "id-n2it7yj03mr2vjt4w",
+        "dailyQuantity": 2,
+        "isCompleted": true
+      }
+    ],
+    "scoreMode": true
+  }
+}
