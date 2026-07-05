@@ -1341,7 +1341,7 @@ function saveGoal() {
   if (wdata.scoreMode) {
     scoreWeight = parseInt(document.getElementById('goalScoreWeight').value) || 0;
     bonusRatio = (parseInt(document.getElementById('goalBonusRatio').value) || 0) / 100;
-    if (scoreWeight <= 0) { errEl.textContent = '评分模式下请设置分数权重'; return; }
+    if (scoreWeight < 0) { errEl.textContent = '评分模式下分数权重不能为负数'; return; }
   }
 
   if (editingGoalId) {
