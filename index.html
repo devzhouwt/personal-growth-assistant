@@ -419,6 +419,21 @@ tr[draggable="true"]:hover { background: var(--gray-50); }
 tr.dragging { opacity: 0.4; background: var(--primary-bg); }
 tr.drag-over-top { box-shadow: inset 0 3px 0 0 var(--primary); }
 tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
+/* Plan list */
+.plan-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: background .2s;
+}
+.plan-list-item:hover { background: var(--gray-50); }
+.plan-list-item .plan-name { font-weight: 600; font-size: 14px; flex: 1; min-width: 0; }
+.plan-list-item .plan-meta { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+.plan-list-item .plan-actions { display: flex; gap: 6px; flex-shrink: 0; margin-left: 12px; }
 /* Responsive */
 @media (max-width: 640px) {
   .app-container { padding: 10px; }
@@ -477,9 +492,11 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
   <div class="card" id="goalsCard">
     <div class="card-title" data-tip="设定本周要完成的目标任务，包括名称、总量和计量单位"><span class="icon">🎯</span> 周总目标</div>
     <div class="toolbar" id="goalsToolbar">
-      <button class="btn btn-primary" onclick="showAddGoalModal()" data-tip="添加一个新的周总目标，需填写任务名称、目标总量和计量单位">＋ 添加目标</button>
-      <button class="btn btn-outline" onclick="copyLastWeekPlan()" data-tip="将上一周的周总目标和每日任务分配完整复制到当前周，日期按星期自动映射">📋 复制上周计划</button>
-      <div class="toggle-wrap" style="margin-left:auto" data-tip="开启后需为每项任务设置分数权重(总和=100)和全勤奖比例，保存时每日任务量须严格等于目标量">        <span style="font-size:13px;font-weight:600">评分模式</span>
+      <button class="btn btn-primary" id="btnAddGoal" onclick="showAddGoalModal()" data-tip="添加一个新的周总目标，需填写任务名称、目标总量和计量单位">＋ 添加目标</button>
+      <button class="btn btn-outline" id="btnCopyLastWeek" onclick="copyLastWeekPlan()" data-tip="将上一周的周总目标和每日任务分配完整复制到当前周，日期按星期自动映射">📋 复制上周计划</button>
+      <button class="btn btn-outline" id="btnSavePlan" onclick="showSavePlanModal()" data-tip="将当前周计划校验后保存到云端周计划库，所有周（含只读历史周）均可保存为模板">💾 保存计划</button>
+      <button class="btn btn-outline" id="btnImportPlan" onclick="showImportPlanModal()" data-tip="从云端周计划库中选择一个已保存的计划模板，导入并覆盖当前周的数据">📥 导入计划</button>
+      <div class="toggle-wrap" id="scoreToggleWrap" style="margin-left:auto" data-tip="开启后需为每项任务设置分数权重(总和=100)和全勤奖比例，保存时每日任务量须严格等于目标量">        <span style="font-size:13px;font-weight:600">评分模式</span>
         <div class="toggle" id="scoreToggle" onclick="toggleScoreMode()"></div>
       </div>
     </div>
@@ -607,6 +624,37 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeModal('dailyModal')">取消</button>
       <button class="btn btn-primary" onclick="saveDailyTask()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Save Plan Modal -->
+<div class="modal-overlay" id="savePlanModal">
+  <div class="modal">
+    <h3>💾 保存当前周计划</h3>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">当前周计划将通过校验后保存到 Gitee 云端的"weekPlans"目录中，作为模板供以后导入使用。</p>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>计划名称</label>
+      <input type="text" id="savePlanName" placeholder="如：2026年第27周-学习冲刺计划" style="width:100%" maxlength="100" onkeydown="if(event.key==='Enter'){event.preventDefault();savePlanToCloud()}">
+    </div>
+    <div id="savePlanError" class="error-text" style="margin-bottom:8px"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('savePlanModal')">取消</button>
+      <button class="btn btn-primary" onclick="savePlanToCloud()">保存到云端</button>
+    </div>
+  </div>
+</div>
+
+<!-- Import Plan Modal -->
+<div class="modal-overlay" id="importPlanModal">
+  <div class="modal">
+    <h3>📥 导入计划</h3>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">从 Gitee 云端的"weekPlans"目录中选择要导入的计划模板，导入后将覆盖当前周的计划数据。</p>
+    <div id="importPlanList"></div>
+    <div id="importPlanLoading" style="text-align:center;padding:20px;color:var(--gray-500)">⏳ 正在加载计划列表...</div>
+    <div id="importPlanError" class="error-text" style="margin-bottom:8px"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('importPlanModal')">取消</button>
     </div>
   </div>
 </div>
@@ -1074,8 +1122,12 @@ function render() {
   document.getElementById('readonlyBadge').style.display = readonly ? 'inline-block' : 'none';
   document.getElementById('btnBackCurrent').style.display = isCurrentWk ? 'none' : 'block';
 
-  // Toolbar visibility
-  document.getElementById('goalsToolbar').style.display = readonly ? 'none' : 'flex';
+  // Toolbar visibility — 保持工具栏始终可见，只读模式下隐藏编辑相关按钮
+  document.getElementById('goalsToolbar').style.display = 'flex';
+  document.getElementById('btnAddGoal').style.display = readonly ? 'none' : 'inline-flex';
+  document.getElementById('btnCopyLastWeek').style.display = readonly ? 'none' : 'inline-flex';
+  document.getElementById('btnImportPlan').style.display = readonly ? 'none' : 'inline-flex';
+  document.getElementById('scoreToggleWrap').style.display = readonly ? 'none' : 'flex';
   document.getElementById('dailyToolbar').style.display = readonly ? 'none' : 'flex';
   document.getElementById('btnSave').style.display = readonly ? 'none' : 'inline-flex';
 
@@ -1680,6 +1732,317 @@ function copyLastWeekPlan() {
   setCurrentWeekData(wdata);
   render();
   alert('✅ 已成功复制上周计划！请根据需要修改后保存。');
+}
+
+// ========== Plan Save / Import / Delete ==========
+let importablePlans = [];
+
+function showSavePlanModal() {
+  const wdata = getCurrentWeekData();
+  if (wdata.goals.length === 0) {
+    alert('当前周没有计划数据，无法保存');
+    return;
+  }
+  document.getElementById('savePlanName').value = '';
+  document.getElementById('savePlanError').textContent = '';
+  openModal('savePlanModal');
+}
+
+async function savePlanToCloud() {
+  const planName = document.getElementById('savePlanName').value.trim();
+  const errEl = document.getElementById('savePlanError');
+
+  if (!planName) { errEl.textContent = '请输入计划名称'; return; }
+
+  // 先校验计划
+  const { allPass, goalCount } = validateCurrentWeek();
+  if (goalCount === 0) { errEl.textContent = '当前周没有计划数据'; return; }
+  if (!allPass) { errEl.textContent = '计划校验未通过，请先在「操作」区点击「校验计划」修正后再保存'; return; }
+
+  if (!giteeConnected) {
+    errEl.textContent = '未配置 Gitee 云同步，请先点击顶部「配置云同步」按钮完成配置';
+    return;
+  }
+
+  errEl.innerHTML = '<span style="color:var(--warning)">⏳ 正在保存到云端...</span>';
+
+  const wdata = getCurrentWeekData();
+  const weekId = getWeekId(currentMonday);
+  const weekLabel = `${currentMonday.getFullYear()}年第${getWeekNumber(currentMonday)}周`;
+
+  const planData = {
+    planName: planName,
+    savedAt: new Date().toISOString(),
+    weekId: weekId,
+    weekLabel: weekLabel,
+    weekData: wdata
+  };
+
+  const cfg = giteeConfig;
+  // 清理文件名中的非法字符
+  const safeName = planName.replace(/[\/\\:*?"<>|]/g, '_');
+  const filePath = `weekPlans/${safeName}.json`;
+  // 显式 URL 编码路径（中文等非 ASCII 字符需要编码）
+  const encodedPath = filePath.split('/').map(encodeURIComponent).join('/');
+  const url = `https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${encodedPath}`;
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(planData, null, 2))));
+
+  // 检查"weekPlans"目录是否存在，再检查是否有同名文件
+  let existingSha = null;
+  try {
+    // 第一步：检查"weekPlans"目录是否存在
+    const dirUrl = `https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${encodeURIComponent('weekPlans')}?access_token=${cfg.token}&_t=${Date.now()}`;
+    const dirRes = await fetch(dirUrl);
+
+    if (dirRes.ok) {
+      // 目录存在，查看目录下是否有同名文件
+      const dirFiles = await dirRes.json();
+      if (Array.isArray(dirFiles)) {
+        const existingFile = dirFiles.find(f => f.name === `${safeName}.json`);
+        if (existingFile) {
+          // 同名文件存在，获取其 SHA 用于后续覆盖
+          const fileRes = await fetch(`${url}?access_token=${cfg.token}`);
+          if (fileRes.ok) {
+            const fileData = await fileRes.json();
+            existingSha = fileData.sha;
+          }
+          if (!confirm(`云端已存在名为"${planName}"的计划，是否覆盖？`)) {
+            errEl.textContent = '';
+            return;
+          }
+        }
+      }
+    }
+    // dirRes 返回 404：说明"weekPlans"目录不存在，无需检查，直接创建即可
+  } catch (e) { /* 检查异常时直接尝试保存 */ }
+
+  const body = {
+    access_token: cfg.token,
+    content: content,
+    message: `保存计划: ${planName} (${weekLabel})`
+  };
+  if (existingSha) body.sha = existingSha;
+
+  try {
+    const res = await fetch(url, {
+      method: existingSha ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      let errMsg = `HTTP ${res.status}`;
+      try { const errData = JSON.parse(errText); errMsg = errData.message || errMsg; } catch {}
+      throw new Error(errMsg);
+    }
+
+    errEl.innerHTML = '<span style="color:var(--success)">✅ 计划已成功保存到云端！</span>';
+    setTimeout(() => closeModal('savePlanModal'), 1500);
+  } catch (e) {
+    errEl.innerHTML = `<span style="color:var(--danger)">❌ 保存失败: ${esc(e.message || '未知错误')}</span>`;
+  }
+}
+
+async function showImportPlanModal() {
+  document.getElementById('importPlanList').innerHTML = '';
+  document.getElementById('importPlanLoading').style.display = 'block';
+  document.getElementById('importPlanError').textContent = '';
+  openModal('importPlanModal');
+
+  if (!giteeConnected) {
+    document.getElementById('importPlanLoading').style.display = 'none';
+    document.getElementById('importPlanError').textContent = '未配置 Gitee 云同步，请先点击顶部「配置云同步」按钮完成配置';
+    return;
+  }
+
+  const plans = await listPlanFiles();
+  document.getElementById('importPlanLoading').style.display = 'none';
+
+  if (plans === null) {
+    document.getElementById('importPlanError').textContent = '加载失败，请检查 Gitee 连接配置或网络';
+    return;
+  }
+
+  importablePlans = plans;
+
+  if (plans.length === 0) {
+    document.getElementById('importPlanList').innerHTML = '<div class="empty-state" style="padding:20px"><p>云端"weekPlans"目录中暂无已保存的计划</p></div>';
+    return;
+  }
+
+  let html = '';
+  plans.forEach((p, i) => {
+    const savedTime = p.savedAt ? new Date(p.savedAt).toLocaleString('zh-CN') : '未知';
+    html += `<div class="plan-list-item">
+      <div style="flex:1;min-width:0">
+        <div class="plan-name">${esc(p.planName)}</div>
+        <div class="plan-meta">${esc(p.weekLabel || '')} · 保存于 ${esc(savedTime)}</div>
+      </div>
+      <div class="plan-actions">
+        <button class="btn btn-primary btn-sm" onclick="importPlanByIndex(${i})" data-tip="将此计划导入到当前周，会覆盖现有数据">📥 导入</button>
+        <button class="btn btn-danger btn-sm" onclick="deletePlanByIndex(${i})" data-tip="从云端永久删除此计划">🗑 删除</button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('importPlanList').innerHTML = html;
+}
+
+async function listPlanFiles() {
+  if (!giteeConnected) return null;
+  const cfg = giteeConfig;
+
+  try {
+    const res = await fetch(`https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${encodeURIComponent('weekPlans')}?access_token=${cfg.token}&_t=${Date.now()}`);
+
+    if (res.status === 404) return [];
+    if (!res.ok) return null;
+
+    const files = await res.json();
+    if (!Array.isArray(files)) return [];
+
+    const plans = [];
+    for (const file of files) {
+      if (!file.name || !file.name.endsWith('.json')) continue;
+      try {
+        const fileRes = await fetch(`${file.url}?access_token=${cfg.token}`);
+        if (fileRes.ok) {
+          const fileData = await fileRes.json();
+          if (fileData.content) {
+            const decoded = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ''))));
+            const plan = JSON.parse(decoded);
+            plans.push({
+              fileName: file.name,
+              planName: plan.planName || file.name.replace('.json', ''),
+              weekLabel: plan.weekLabel || '',
+              savedAt: plan.savedAt || '',
+              planData: plan
+            });
+          }
+        }
+      } catch (e) {
+        // 文件解析失败，仍显示在列表中
+        plans.push({
+          fileName: file.name,
+          planName: file.name.replace('.json', ''),
+          weekLabel: '',
+          savedAt: '',
+          planData: null
+        });
+      }
+    }
+
+    plans.sort((a, b) => (b.savedAt || '').localeCompare(a.savedAt || ''));
+    return plans;
+  } catch (e) {
+    console.error('[List Plans] Failed:', e);
+    return null;
+  }
+}
+
+function importPlanByIndex(idx) {
+  const plan = importablePlans[idx];
+  if (plan) importPlan(plan.fileName);
+}
+
+async function importPlan(fileName) {
+  if (!giteeConnected) { alert('未配置 Gitee 云同步'); return; }
+
+  const wdata = getCurrentWeekData();
+  if (wdata.goals.length > 0 || wdata.dailyTasks.length > 0) {
+    if (!confirm('导入计划将覆盖当前周的所有计划数据，确认继续？')) return;
+  }
+
+  const cfg = giteeConfig;
+  const encodedFilePath = `${encodeURIComponent('weekPlans')}/${encodeURIComponent(fileName)}`;
+  const url = `https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${encodedFilePath}?access_token=${cfg.token}`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('获取计划文件失败');
+
+    const fileData = await res.json();
+    if (!fileData.content) throw new Error('计划内容为空');
+
+    const decoded = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ''))));
+    const plan = JSON.parse(decoded);
+
+    if (!plan.weekData || !plan.weekData.goals) {
+      throw new Error('计划数据格式不正确，缺少 goals 字段');
+    }
+
+    // 为新导入的计划生成新的 ID，避免与已有数据冲突
+    const idMap = {};
+    const newGoals = plan.weekData.goals.map(g => {
+      const newId = uuid();
+      idMap[g.goalId] = newId;
+      return { ...g, goalId: newId, weekIdentifier: getWeekId(currentMonday) };
+    });
+
+    const newDailyTasks = (plan.weekData.dailyTasks || []).map(t => ({
+      ...t,
+      taskId: uuid(),
+      weekIdentifier: getWeekId(currentMonday),
+      goalId: idMap[t.goalId] || t.goalId,
+      isCompleted: false
+    }));
+
+    wdata.goals = newGoals;
+    wdata.dailyTasks = newDailyTasks;
+    wdata.scoreMode = plan.weekData.scoreMode || false;
+    setCurrentWeekData(wdata);
+
+    closeModal('importPlanModal');
+    render();
+    alert(`✅ 已成功导入计划"${plan.planName || fileName}"！`);
+  } catch (e) {
+    alert('❌ 导入失败: ' + (e.message || '未知错误'));
+  }
+}
+
+function deletePlanByIndex(idx) {
+  const plan = importablePlans[idx];
+  if (plan) deletePlanConfirm(plan.fileName, plan.planName);
+}
+
+function deletePlanConfirm(fileName, planName) {
+  if (!confirm(`确认删除计划"${planName}"？\n\n此操作不可撤销，将从云端永久删除该计划。`)) return;
+  deletePlanFromCloud(fileName);
+}
+
+async function deletePlanFromCloud(fileName) {
+  if (!giteeConnected) return;
+
+  const cfg = giteeConfig;
+  const encodedFilePath = `${encodeURIComponent('weekPlans')}/${encodeURIComponent(fileName)}`;
+  const url = `https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${encodedFilePath}?access_token=${cfg.token}`;
+
+  try {
+    // 先获取文件 SHA
+    const getRes = await fetch(url);
+    if (!getRes.ok) throw new Error('获取文件信息失败');
+    const fileData = await getRes.json();
+
+    const deleteRes = await fetch(url, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_token: cfg.token,
+        message: `删除计划: ${fileName}`,
+        sha: fileData.sha
+      })
+    });
+
+    if (!deleteRes.ok) {
+      const errText = await deleteRes.text().catch(() => '');
+      throw new Error(errText.slice(0, 200));
+    }
+
+    // 刷新计划列表
+    showImportPlanModal();
+  } catch (e) {
+    alert('❌ 删除失败: ' + (e.message || '未知错误'));
+  }
 }
 
 // ========== Modal Helpers ==========
