@@ -72,6 +72,14 @@ body {
 .week-nav .week-label.is-current {
   color: var(--primary);
 }
+.week-score {
+  display: inline-block;
+  font-size: 22px;
+  font-weight: 800;
+  color: #ef4444;
+  margin-left: 10px;
+  vertical-align: middle;
+}
 .week-nav .week-dates { font-size: 13px; color: var(--gray-500); }
 .current-week-badge {
   background: linear-gradient(135deg, var(--primary), var(--primary-light));
@@ -472,6 +480,7 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
     <button id="btnPrevWeek" onclick="navigateWeek(-1)" data-tip="查看上一周的计划与执行情况">◀ 上一周</button>
     <div style="text-align:center">
       <div class="week-label" id="weekLabel"></div>
+      <span class="week-score" id="weekScore" style="display:none"></span>
       <div class="week-dates" id="weekDates"></div>
       <span class="current-week-badge" id="currentWeekBadge" style="display:none" data-tip="当前显示的是本周的计划，基于您的系统日期自动定位" data-tip-pos="bottom">📌 本周的计划</span>
       <span class="readonly-badge" id="readonlyBadge" style="display:none" data-tip="该周为较早的历史数据，仅供查看和复盘，无法编辑" data-tip-pos="bottom">📖 只读模式</span>
@@ -1117,6 +1126,22 @@ function render() {
   const weekLabelEl = document.getElementById('weekLabel');
   weekLabelEl.textContent = `${currentMonday.getFullYear()}年 第${getWeekNumber(currentMonday)}周`;
   weekLabelEl.className = 'week-label' + (isCurrentWk ? ' is-current' : '');
+
+  // 显示历史周得分（仅评分模式且校验通过时，且仅为历史周）
+  const weekScoreEl = document.getElementById('weekScore');
+  const isPastWeek = currentMonday.getTime() < nowMonday.getTime();
+  if (isPastWeek) {
+    const totalScore = computeTotalScore(wdata);
+    if (totalScore !== null) {
+      weekScoreEl.textContent = `${totalScore.toFixed(1)}分`;
+      weekScoreEl.style.display = 'inline-block';
+    } else {
+      weekScoreEl.style.display = 'none';
+    }
+  } else {
+    weekScoreEl.style.display = 'none';
+  }
+
   document.getElementById('weekDates').textContent = `${formatDate(days[0].dateObj)} ~ ${formatDate(days[6].dateObj)}`;
   document.getElementById('currentWeekBadge').style.display = isCurrentWk ? 'inline-block' : 'none';
   document.getElementById('readonlyBadge').style.display = readonly ? 'inline-block' : 'none';
@@ -1610,6 +1635,47 @@ function saveAndValidate() {
 }
 
 // ========== Score Calculation ==========
+// 计算当前周总得分（纯计算，无 UI），返回 null 表示不满足显示条件
+function computeTotalScore(wdata) {
+  if (!wdata.scoreMode || wdata.goals.length === 0) return null;
+
+  // 校验计划
+  let allPass = true;
+  for (const g of wdata.goals) {
+    const sum = wdata.dailyTasks
+      .filter(t => t.goalId === g.goalId)
+      .reduce((s,t) => s + t.dailyQuantity, 0);
+    if (sum !== g.totalQuantity) { allPass = false; break; }
+  }
+  if (allPass) {
+    const totalWeight = wdata.goals.reduce((s,g) => s + (g.scoreWeight || 0), 0);
+    if (totalWeight !== 100) allPass = false;
+  }
+  if (!allPass) return null;
+
+  // 计算得分
+  let totalScore = 0;
+  wdata.goals.forEach(g => {
+    const baseScoreFull = g.scoreWeight - g.scoreWeight * g.attendanceBonusRatio;
+    const bonusScoreFull = g.scoreWeight * g.attendanceBonusRatio;
+
+    const completedQty = wdata.dailyTasks
+      .filter(t => t.goalId === g.goalId && t.isCompleted)
+      .reduce((s,t) => s + t.dailyQuantity, 0);
+
+    const baseScore = g.totalQuantity > 0 ? (completedQty / g.totalQuantity) * baseScoreFull : 0;
+
+    const goalTasks = wdata.dailyTasks.filter(t => t.goalId === g.goalId);
+    const allCompleted = goalTasks.length > 0 && goalTasks.every(t => t.isCompleted);
+    const plannedSum = goalTasks.reduce((s,t) => s + t.dailyQuantity, 0);
+    const attendanceBonus = (allCompleted && plannedSum >= g.totalQuantity) ? bonusScoreFull : 0;
+
+    totalScore += baseScore + attendanceBonus;
+  });
+
+  return totalScore;
+}
+
 function calculateScore() {
   // 先校验计划，不通过则阻止计算
   const { allPass, results, goalCount } = validateCurrentWeek();
