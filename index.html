@@ -32,7 +32,7 @@ body {
   color: var(--gray-900);
 }
 .app-container {
-  max-width: 960px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -164,13 +164,28 @@ body {
 /* Table */
 table { width: 100%; border-collapse: collapse; }
 th, td {
-  padding: 10px 12px;
+  padding: 12px 14px;
   text-align: left;
   border-bottom: 1px solid var(--gray-200);
   font-size: 13px;
 }
 th { background: var(--gray-50); font-weight: 600; color: var(--gray-700); font-size: 12px; text-transform: uppercase; }
 tr:hover { background: var(--gray-50); }
+/* Daily task cell */
+.daily-cell { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.daily-cell .task-row { display: flex; align-items: center; gap: 6px; justify-content: center; }
+.daily-cell .task-check { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary); flex-shrink: 0; }
+.daily-cell .task-qty { font-size: 13px; font-weight: 600; color: var(--gray-800); white-space: nowrap; }
+.daily-cell .task-qty .qty-unit { font-size: 11px; font-weight: 400; color: var(--gray-500); margin-left: 2px; }
+.daily-cell .icon-btn { background: none; border: none; cursor: pointer; padding: 2px; line-height: 1; transition: opacity .15s; }
+.daily-cell .icon-btn:hover { opacity: 0.85; }
+.daily-cell .icon-del { color: #c53030; }
+.daily-cell .icon-del svg { width: 15px; height: 15px; vertical-align: middle; }
+.daily-cell .icon-edit { color: #2b6cb0; }
+.daily-cell .icon-edit svg { width: 15px; height: 15px; vertical-align: middle; }
+.daily-cell .remark-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--gray-400); line-height: 1; min-height: 20px; justify-content: center; }
+.daily-cell .remark-row .remark-icon { cursor: pointer; }
+.daily-cell .remark-row .remark-icon svg { width: 14px; height: 14px; vertical-align: middle; }
 /* Form */
 .form-row {
   display: flex;
@@ -604,31 +619,16 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
       </div>
     </div>
 
-    <!-- 四要素确定性任务 fields -->
+    <!-- 四要素确定性任务 fields（周总目标仅填总时长，四要素详情在每日任务中录入） -->
     <div id="fourElementFields" style="display:none">
-      <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px;margin-bottom:12px">
-        <div style="font-weight:700;font-size:14px;color:#0369a1;margin-bottom:10px">四要素</div>
-        <div class="form-group" style="margin-bottom:12px">
-          <label>问题：具体要解决什么？</label>
-          <input type="text" id="goalQuestion" placeholder="如：学习comfyui角色一致性已有行业方案" style="width:100%" onkeydown="if(event.key==='Enter'){event.preventDefault();saveGoal()}">
+      <div style="display:flex;gap:10px;margin-bottom:12px">
+        <div class="form-group" style="flex:1">
+          <label>任务总时长</label>
+          <input type="number" id="goalTotalDuration" min="0" step="any" placeholder="如：10" onkeydown="if(event.key==='Enter'){event.preventDefault();saveGoal()}">
         </div>
-        <div class="form-group" style="margin-bottom:12px">
-          <label>办法：通过什么路径解决？</label>
-          <input type="text" id="goalMethod" placeholder="如：找一个“角色一致性/IPAdapter工作流”的开源工程，下载下来，跑通它" style="width:100%" onkeydown="if(event.key==='Enter'){event.preventDefault();saveGoal()}">
-        </div>
-        <div class="form-group" style="margin-bottom:12px">
-          <label>预期：大概率能得到什么结果？</label>
-          <input type="text" id="goalExpectation" placeholder="如：成功出图，且符合预期" style="width:100%" onkeydown="if(event.key==='Enter'){event.preventDefault();saveGoal()}">
-        </div>
-        <div style="display:flex;gap:10px;margin-bottom:0">
-          <div class="form-group" style="flex:1;margin-bottom:0">
-            <label>时间：预计花费多久？</label>
-            <input type="number" id="goalFourQty" min="0" step="any" placeholder="如：10" onkeydown="if(event.key==='Enter'){event.preventDefault();saveGoal()}">
-          </div>
-          <div class="form-group" style="flex:1;margin-bottom:0">
-            <label>时间单位</label>
-            <input type="text" id="goalFourUnit" placeholder="如：小时" onkeydown="if(event.key==='Enter'){event.preventDefault();saveGoal()}">
-          </div>
+        <div class="form-group" style="flex:1">
+          <label>时间单位</label>
+          <input type="text" id="goalDurationUnit" placeholder="如：小时" onkeydown="if(event.key==='Enter'){event.preventDefault();saveGoal()}">
         </div>
       </div>
     </div>
@@ -679,18 +679,45 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
       <label>选择任务</label>
       <select id="dailyGoalSelect" style="width:100%"></select>
     </div>
-    <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+    <div id="dailyQtyWrap" style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
       <div class="form-group" style="flex:1.2;min-width:140px">
         <label style="white-space:nowrap">选择日期</label>
         <select id="dailyDateSelect" style="width:100%;min-width:120px"></select>
       </div>
-      <div class="form-group" style="flex:0.8;min-width:100px">
+      <div class="form-group" id="dailyQtyGroup" style="flex:0.8;min-width:100px">
         <label style="white-space:nowrap">任务量</label>
         <input type="number" id="dailyQty" min="0" step="any" placeholder="如：10" onkeydown="if(event.key==='Enter'){event.preventDefault();saveDailyTask()}">
       </div>
-      <div class="form-group" style="flex:0.6;min-width:80px">
+      <div class="form-group" id="dailyUnitGroup" style="flex:0.6;min-width:80px">
         <label style="white-space:nowrap">单位</label>
         <input type="text" id="dailyUnit" readonly>
+      </div>
+    </div>
+    <div id="dailyFourElementFields" style="display:none;margin-bottom:12px">
+      <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px">
+        <div style="font-weight:700;font-size:14px;color:#0369a1;margin-bottom:10px">四要素详情</div>
+        <div class="form-group" style="margin-bottom:10px">
+          <label>问题：具体要解决什么？</label>
+          <input type="text" id="dailyQuestion" placeholder="如：学习comfyui角色一致性已有行业方案" style="width:100%" onkeydown="if(event.key==='Enter'){event.preventDefault();saveDailyTask()}">
+        </div>
+        <div class="form-group" style="margin-bottom:10px">
+          <label>办法：通过什么路径解决？</label>
+          <input type="text" id="dailyMethod" placeholder="如：找一个开源工程，下载下来，跑通它" style="width:100%" onkeydown="if(event.key==='Enter'){event.preventDefault();saveDailyTask()}">
+        </div>
+        <div class="form-group" style="margin-bottom:10px">
+          <label>预期：大概率能得到什么结果？</label>
+          <input type="text" id="dailyExpectation" placeholder="如：成功出图，且符合预期" style="width:100%" onkeydown="if(event.key==='Enter'){event.preventDefault();saveDailyTask()}">
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:0">
+          <div class="form-group" style="flex:1;margin-bottom:0">
+            <label>时间：本次花费多久？</label>
+            <input type="number" id="dailyFourDuration" min="0" step="any" placeholder="如：3" onkeydown="if(event.key==='Enter'){event.preventDefault();saveDailyTask()}">
+          </div>
+          <div class="form-group" style="flex:1;margin-bottom:0">
+            <label>时间单位</label>
+            <input type="text" id="dailyFourUnit" readonly>
+          </div>
+        </div>
       </div>
     </div>
     <div class="form-group" style="margin-bottom:12px">
@@ -1268,7 +1295,7 @@ function renderGoals(wdata, readonly) {
 
     let qtyDisplay = '';
     if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') {
-      qtyDisplay = `${g.fourQuantity||''} ${esc(g.fourUnit||'')}`;
+      qtyDisplay = `${g.totalDuration||''} ${esc(g.durationUnit||'')}`;
     } else if (g.taskType === 'exploratory') {
       qtyDisplay = `${g.exploreQuantity||''} ${esc(g.exploreUnit||'')}`;
     } else {
@@ -1390,20 +1417,56 @@ function renderDailyTasks(wdata, days, readonly) {
         sum += task.dailyQuantity;
         const checked = task.isCompleted ? 'checked' : '';
         const disabled = readonly ? 'disabled' : '';
-        const remarkTip = task.remark ? ` data-tip="📝 ${esc(task.remark)}"` : (getGoalDetailText(g) ? ` data-tip="${esc(getGoalDetailText(g))}"` : '');
-        html += `<td style="text-align:center;${isToday?'background:#eef2ff':''}">
-          <input type="checkbox" class="task-check" ${checked} ${disabled} onchange="toggleTask('${task.taskId}', this.checked)" data-tip="勾选表示当天任务已完成，会影响进度条和得分计算">
-          <div style="font-size:13px;font-weight:600;margin-top:2px"${remarkTip}>${task.dailyQuantity}${task.remark ? ' <span style="font-size:10px;color:var(--gray-500)">📝</span>' : ''}</div>`;
-        if (!readonly) {
-          html += `<button class="btn btn-outline btn-sm" style="padding:2px 6px;font-size:11px;margin-top:2px" onclick="editDailyTask('${task.taskId}')" data-tip="修改该天的任务分配">改</button>`;
-          html += `<button class="btn btn-danger btn-sm" style="padding:2px 6px;font-size:11px;margin-top:2px" onclick="deleteDailyTask('${task.taskId}')" data-tip="删除该天的任务分配">删</button>`;
+        const unit = esc(getGoalEffectiveUnit(g));
+        const isFourEl = g.taskType === 'deterministic' && g.taskSubtype === 'fourElement';
+        const isExploratory = g.taskType === 'exploratory';
+        // 确定备注显示内容：优先自身备注，其次回退到周任务备注（探索性）或四要素信息（四要素确定性）
+        let remarkText = task.remark || '';
+        if (!remarkText) {
+          if (isExploratory && g.exploreTarget) {
+            remarkText = g.exploreTarget;
+          } else if (isFourEl && task.question) {
+            remarkText = `问题：${task.question}\n办法：${task.method}\n预期：${task.expectation}`;
+          }
         }
-        html += `</td>`;
+        // 构建单元格级别的统一悬停提示
+        let cellTipParts = [];
+        let hasBaseInfo = false;
+        if (isFourEl && task.question) {
+          cellTipParts.push(`问题：${task.question}\n办法：${task.method}\n预期：${task.expectation}`);
+          hasBaseInfo = true;
+        }
+        if (isExploratory && g.exploreTarget) {
+          cellTipParts.push(g.exploreTarget);
+          hasBaseInfo = true;
+        }
+        if (task.remark) {
+          cellTipParts.push(hasBaseInfo ? `📝 额外备注：${task.remark}` : `📝 ${task.remark}`);
+        }
+        const cellTip = cellTipParts.length > 0
+          ? ` data-tip="${esc(cellTipParts.join('\n'))}"` : '';
+        const remarkHtml = remarkText
+          ? `<span class="remark-icon" data-tip="存在备注"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span>`
+          : '<span style="color:var(--gray-300)">—</span>';
+        html += `<td style="text-align:center;${isToday?'background:#eef2ff':''}">
+          <div class="daily-cell"${cellTip}>
+            <div class="task-row">
+              <span class="task-qty">${task.dailyQuantity}<span class="qty-unit">(${unit})</span></span>`;
+        if (!readonly) {
+          html += `<button class="icon-btn icon-del" onclick="confirmDeleteDailyTask('${task.taskId}')" data-tip="删除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>`;
+        }
+        html += `</div>
+            <div class="remark-row">${remarkHtml}<input type="checkbox" class="task-check" ${checked} ${disabled} onchange="toggleTask('${task.taskId}', this.checked)">`;
+        if (!readonly) {
+          html += `<button class="icon-btn icon-edit" onclick="editDailyTask('${task.taskId}')" data-tip="编辑"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/><path d="M15 5l4 4"/></svg></button>`;
+        }
+        html += `</div>
+          </div></td>`;
       } else {
         html += `<td style="text-align:center;${isToday?'background:#eef2ff':''}">
           <span style="color:var(--gray-300)">—</span>`;
         if (!readonly) {
-          html += `<br><button class="btn btn-outline btn-sm" style="padding:2px 6px;font-size:11px;margin-top:2px" onclick="quickAddDaily('${g.goalId}','${d.date}')">+</button>`;
+          html += `<div style="margin-top:6px"><button class="btn btn-outline btn-sm" style="padding:3px 8px;font-size:11px" onclick="quickAddDaily('${g.goalId}','${d.date}')">+</button></div>`;
         }
         html += `</td>`;
       }
@@ -1416,6 +1479,28 @@ function renderDailyTasks(wdata, days, readonly) {
   });
   html += '</tbody></table>';
   container.innerHTML = html;
+  // 子元素悬停时替换父级cell的tooltip，避免重叠
+  const dc = document.getElementById('dailyContent');
+  dc.onmouseover = function(e) {
+    const tipEl = e.target.closest('[data-tip]');
+    if (tipEl && tipEl !== tipEl.closest('.daily-cell')) {
+      const cell = tipEl.closest('.daily-cell');
+      if (cell && cell.hasAttribute('data-tip') && !cell.dataset._savedTip) {
+        cell.dataset._savedTip = cell.getAttribute('data-tip');
+        cell.removeAttribute('data-tip');
+      }
+    }
+  };
+  dc.onmouseout = function(e) {
+    const tipEl = e.target.closest('[data-tip]');
+    if (tipEl) {
+      const cell = tipEl.closest('.daily-cell');
+      if (cell && cell.dataset._savedTip) {
+        cell.setAttribute('data-tip', cell.dataset._savedTip);
+        delete cell.dataset._savedTip;
+      }
+    }
+  };
 }
 
 function renderProgress(wdata) {
@@ -1452,20 +1537,20 @@ function esc(s) {
 }
 
 function getGoalEffectiveQty(g) {
-  if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') return g.fourQuantity || 0;
+  if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') return g.totalDuration || 0;
   if (g.taskType === 'exploratory') return g.exploreQuantity || 0;
   return g.totalQuantity || 0;
 }
 
 function getGoalEffectiveUnit(g) {
-  if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') return g.fourUnit || '';
+  if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') return g.durationUnit || '';
   if (g.taskType === 'exploratory') return g.exploreUnit || '';
   return g.unit || '';
 }
 
 function getGoalDetailText(g) {
   if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') {
-    return `问题：${g.question||''}\n办法：${g.method||''}\n预期：${g.expectation||''}`;
+    return `任务总时长：${g.totalDuration||''} ${esc(g.durationUnit||'')}\n四要素详情请在每日任务分配中查看`;
   }
   if (g.taskType === 'exploratory') {
     return `探索对象：${g.exploreTarget||''}`;
@@ -1507,6 +1592,12 @@ function updateGoalFormVisibility() {
   document.getElementById('exploratoryFields').style.display =
     (taskType === 'exploratory') ? '' : 'none';
 
+  // 动态修改任务名称标签：四要素确定性任务显示为"任务归属"
+  const nameLabel = document.querySelector('label[for="goalTaskName"]') || document.getElementById('goalTaskName')?.previousElementSibling;
+  if (nameLabel && nameLabel.tagName === 'LABEL') {
+    nameLabel.textContent = (taskType === 'deterministic' && subtype === 'fourElement') ? '任务归属' : '任务名称';
+  }
+
   // 评分字段：所有任务类型在评分模式下均显示
   const showScore = wdata.scoreMode;
   document.getElementById('scoreFields').style.display = showScore ? 'block' : 'none';
@@ -1530,11 +1621,8 @@ function showAddGoalModal() {
   document.getElementById('goalUnit').value = '';
   document.getElementById('goalScoreWeight').value = '';
   document.getElementById('goalBonusRatio').value = '';
-  document.getElementById('goalQuestion').value = '';
-  document.getElementById('goalMethod').value = '';
-  document.getElementById('goalExpectation').value = '';
-  document.getElementById('goalFourQty').value = '';
-  document.getElementById('goalFourUnit').value = '';
+  document.getElementById('goalTotalDuration').value = '';
+  document.getElementById('goalDurationUnit').value = '';
   document.getElementById('goalExploreTarget').value = '';
   document.getElementById('goalExploreQty').value = '';
   document.getElementById('goalExploreUnit').value = '';
@@ -1556,11 +1644,8 @@ function editGoal(goalId) {
   document.getElementById('goalUnit').value = g.unit || '';
   document.getElementById('goalScoreWeight').value = g.scoreWeight || '';
   document.getElementById('goalBonusRatio').value = g.attendanceBonusRatio ? (g.attendanceBonusRatio * 100) : '';
-  document.getElementById('goalQuestion').value = g.question || '';
-  document.getElementById('goalMethod').value = g.method || '';
-  document.getElementById('goalExpectation').value = g.expectation || '';
-  document.getElementById('goalFourQty').value = g.fourQuantity || '';
-  document.getElementById('goalFourUnit').value = g.fourUnit || '';
+  document.getElementById('goalTotalDuration').value = g.totalDuration || '';
+  document.getElementById('goalDurationUnit').value = g.durationUnit || '';
   document.getElementById('goalExploreTarget').value = g.exploreTarget || '';
   document.getElementById('goalExploreQty').value = g.exploreQuantity || '';
   document.getElementById('goalExploreUnit').value = g.exploreUnit || '';
@@ -1579,8 +1664,7 @@ function saveGoal() {
   if (!name) { errEl.textContent = '请输入任务名称'; return; }
 
   let qty = 0, unit = '';
-  let question = '', method = '', expectation = '';
-  let fourQty = 0, fourUnit = '';
+  let totalDur = 0, durUnit = '';
   let exploreTarget = '', exploreQty = 0, exploreUnit = '';
   let scoreWeight = 0, bonusRatio = 0;
 
@@ -1596,16 +1680,10 @@ function saveGoal() {
         if (scoreWeight < 0) { errEl.textContent = '评分模式下分数权重不能为负数'; return; }
       }
     } else if (taskSubtype === 'fourElement') {
-      question = document.getElementById('goalQuestion').value.trim();
-      method = document.getElementById('goalMethod').value.trim();
-      expectation = document.getElementById('goalExpectation').value.trim();
-      fourQty = parseFloat(document.getElementById('goalFourQty').value);
-      fourUnit = document.getElementById('goalFourUnit').value.trim();
-      if (!question) { errEl.textContent = '请输入问题'; return; }
-      if (!method) { errEl.textContent = '请输入办法'; return; }
-      if (!expectation) { errEl.textContent = '请输入预期'; return; }
-      if (!fourQty || fourQty <= 0) { errEl.textContent = '请输入有效的时间'; return; }
-      if (!fourUnit) { errEl.textContent = '请输入时间单位'; return; }
+      totalDur = parseFloat(document.getElementById('goalTotalDuration').value);
+      durUnit = document.getElementById('goalDurationUnit').value.trim();
+      if (!totalDur || totalDur <= 0) { errEl.textContent = '请输入有效的任务总时长'; return; }
+      if (!durUnit) { errEl.textContent = '请输入时间单位'; return; }
       if (wdata.scoreMode) {
         scoreWeight = parseInt(document.getElementById('goalScoreWeight').value) || 0;
         bonusRatio = (parseInt(document.getElementById('goalBonusRatio').value) || 0) / 100;
@@ -1632,11 +1710,8 @@ function saveGoal() {
     taskSubtype,
     totalQuantity: qty,
     unit,
-    question,
-    method,
-    expectation,
-    fourQuantity: fourQty,
-    fourUnit,
+    totalDuration: totalDur,
+    durationUnit: durUnit,
     exploreTarget,
     exploreQuantity: exploreQty,
     exploreUnit,
@@ -1665,6 +1740,22 @@ function deleteGoal(goalId) {
 }
 
 // ========== Daily Task CRUD ==========
+function updateDailyFourElementFields(goalId) {
+  const wdata = getCurrentWeekData();
+  const g = wdata.goals.find(x => x.goalId === goalId);
+  const isFourElement = g && g.taskType === 'deterministic' && g.taskSubtype === 'fourElement';
+  const el = document.getElementById('dailyFourElementFields');
+  if (el) el.style.display = isFourElement ? 'block' : 'none';
+  // 四要素任务时隐藏外层任务量和单位，改在蓝色框内填写
+  const qtyGroup = document.getElementById('dailyQtyGroup');
+  const unitGroup = document.getElementById('dailyUnitGroup');
+  if (qtyGroup) qtyGroup.style.display = isFourElement ? 'none' : '';
+  if (unitGroup) unitGroup.style.display = isFourElement ? 'none' : '';
+  // 设置四要素中的时间单位（只读，继承自周总目标）
+  const fourUnit = document.getElementById('dailyFourUnit');
+  if (fourUnit) fourUnit.value = g ? getGoalEffectiveUnit(g) : '';
+}
+
 function showAddDailyModal() {
   editingDailyId = null;
   const wdata = getCurrentWeekData();
@@ -1676,11 +1767,17 @@ function showAddDailyModal() {
   document.getElementById('dailyQty').value = '';
   document.getElementById('dailyUnit').value = wdata.goals.length > 0 ? getGoalEffectiveUnit(wdata.goals[0]) : '';
   document.getElementById('dailyRemark').value = '';
+  document.getElementById('dailyQuestion').value = '';
+  document.getElementById('dailyMethod').value = '';
+  document.getElementById('dailyExpectation').value = '';
+  document.getElementById('dailyFourDuration').value = '';
   document.getElementById('dailyModalError').textContent = '';
+  updateDailyFourElementFields(sel.value);
 
   sel.onchange = () => {
     const g = wdata.goals.find(x => x.goalId === sel.value);
     document.getElementById('dailyUnit').value = g ? getGoalEffectiveUnit(g) : '';
+    updateDailyFourElementFields(sel.value);
   };
 
   document.getElementById('dailyModalTitle').textContent = '添加每日任务';
@@ -1700,11 +1797,17 @@ function quickAddDaily(goalId, date) {
   document.getElementById('dailyQty').value = '';
   document.getElementById('dailyUnit').value = g ? getGoalEffectiveUnit(g) : '';
   document.getElementById('dailyRemark').value = '';
+  document.getElementById('dailyQuestion').value = '';
+  document.getElementById('dailyMethod').value = '';
+  document.getElementById('dailyExpectation').value = '';
+  document.getElementById('dailyFourDuration').value = '';
   document.getElementById('dailyModalError').textContent = '';
   document.getElementById('dailyModalTitle').textContent = '添加每日任务';
+  updateDailyFourElementFields(goalId);
   sel.onchange = () => {
     const gg = wdata.goals.find(x => x.goalId === sel.value);
     document.getElementById('dailyUnit').value = gg ? getGoalEffectiveUnit(gg) : '';
+    updateDailyFourElementFields(sel.value);
   };
   openModal('dailyModal');
 }
@@ -1715,19 +1818,26 @@ function editDailyTask(taskId) {
   if (!task) return;
   editingDailyId = taskId;
   const g = wdata.goals.find(x => x.goalId === task.goalId);
+  const isFourEl = g && g.taskType === 'deterministic' && g.taskSubtype === 'fourElement';
   const days = getWeekDays(currentMonday);
   const sel = document.getElementById('dailyGoalSelect');
   sel.innerHTML = wdata.goals.map(x => `<option value="${x.goalId}" ${x.goalId===task.goalId?'selected':''}>${esc(x.taskName)}</option>`);
   const dateSel = document.getElementById('dailyDateSelect');
   dateSel.innerHTML = days.map(d => `<option value="${d.date}" ${d.date===task.date?'selected':''}>${d.dayName} (${d.date.slice(5)})</option>`);
-  document.getElementById('dailyQty').value = task.dailyQuantity;
+  document.getElementById('dailyQty').value = isFourEl ? '' : task.dailyQuantity;
   document.getElementById('dailyUnit').value = g ? getGoalEffectiveUnit(g) : '';
   document.getElementById('dailyRemark').value = task.remark || '';
+  document.getElementById('dailyQuestion').value = task.question || '';
+  document.getElementById('dailyMethod').value = task.method || '';
+  document.getElementById('dailyExpectation').value = task.expectation || '';
+  document.getElementById('dailyFourDuration').value = isFourEl ? task.dailyQuantity : '';
   document.getElementById('dailyModalError').textContent = '';
   document.getElementById('dailyModalTitle').textContent = '编辑每日任务';
+  updateDailyFourElementFields(task.goalId);
   sel.onchange = () => {
     const gg = wdata.goals.find(x => x.goalId === sel.value);
     document.getElementById('dailyUnit').value = gg ? getGoalEffectiveUnit(gg) : '';
+    updateDailyFourElementFields(sel.value);
   };
   openModal('dailyModal');
 }
@@ -1735,30 +1845,58 @@ function editDailyTask(taskId) {
 function saveDailyTask() {
   const goalId = document.getElementById('dailyGoalSelect').value;
   const date = document.getElementById('dailyDateSelect').value;
-  const qty = parseFloat(document.getElementById('dailyQty').value);
   const remark = document.getElementById('dailyRemark').value.trim();
   const errEl = document.getElementById('dailyModalError');
   if (!goalId) { errEl.textContent = '请选择任务'; return; }
   if (!date) { errEl.textContent = '请选择日期'; return; }
-  if (isNaN(qty) || qty < 0) { errEl.textContent = '请输入有效的任务量'; return; }
 
   const wdata = getCurrentWeekData();
+  const selectedGoal = wdata.goals.find(x => x.goalId === goalId);
+  const isFourElement = selectedGoal && selectedGoal.taskType === 'deterministic' && selectedGoal.taskSubtype === 'fourElement';
+
+  // 四要素任务使用蓝色框内的时间字段，非四要素任务使用外层任务量字段
+  let qty;
+  if (isFourElement) {
+    qty = parseFloat(document.getElementById('dailyFourDuration').value);
+  } else {
+    qty = parseFloat(document.getElementById('dailyQty').value);
+  }
+  if (isNaN(qty) || qty < 0) { errEl.textContent = isFourElement ? '请输入有效的时间' : '请输入有效的任务量'; return; }
+
+  // 四要素校验
+  let question = '', method = '', expectation = '';
+  if (isFourElement) {
+    question = document.getElementById('dailyQuestion').value.trim();
+    method = document.getElementById('dailyMethod').value.trim();
+    expectation = document.getElementById('dailyExpectation').value.trim();
+    if (!question) { errEl.textContent = '请输入问题'; return; }
+    if (!method) { errEl.textContent = '请输入办法'; return; }
+    if (!expectation) { errEl.textContent = '请输入预期'; return; }
+  }
 
   if (editingDailyId) {
     const task = wdata.dailyTasks.find(t => t.taskId === editingDailyId);
     if (task) {
-      // Check if another task exists for same goal+date (excluding current)
       const dup = wdata.dailyTasks.find(t => t.goalId === goalId && t.date === date && t.taskId !== editingDailyId);
       if (dup) { errEl.textContent = '该任务在此日期已有分配，请先删除已有的'; return; }
       task.goalId = goalId; task.date = date; task.dailyQuantity = qty; task.remark = remark;
+      task.question = isFourElement ? question : undefined;
+      task.method = isFourElement ? method : undefined;
+      task.expectation = isFourElement ? expectation : undefined;
     }
   } else {
     const existing = wdata.dailyTasks.find(t => t.goalId === goalId && t.date === date);
     if (existing) { errEl.textContent = '该任务在此日期已有分配，请修改已有任务'; return; }
-    wdata.dailyTasks.push({
+    const newTask = {
       taskId: uuid(), weekIdentifier: getWeekId(currentMonday),
       date, goalId, dailyQuantity: qty, isCompleted: false, remark
-    });
+    };
+    if (isFourElement) {
+      newTask.question = question;
+      newTask.method = method;
+      newTask.expectation = expectation;
+    }
+    wdata.dailyTasks.push(newTask);
   }
   setCurrentWeekData(wdata);
   closeModal('dailyModal');
@@ -1769,6 +1907,11 @@ function toggleTask(taskId, checked) {
   const wdata = getCurrentWeekData();
   const task = wdata.dailyTasks.find(t => t.taskId === taskId);
   if (task) { task.isCompleted = checked; setCurrentWeekData(wdata); render(); }
+}
+
+function confirmDeleteDailyTask(taskId) {
+  if (!confirm('确认删除该天的任务分配吗？')) return;
+  deleteDailyTask(taskId);
 }
 
 function deleteDailyTask(taskId) {
@@ -1944,7 +2087,7 @@ function calculateScore() {
       baseFull: baseScoreFull.toFixed(1),
       bonusScore: attendanceBonus.toFixed(1),
       bonusFull: bonusScoreFull.toFixed(1),
-      gotBonus: attendanceBonus > 0,
+      gotBonus: bonusScoreFull > 0 ? attendanceBonus > 0 : allCompleted,
       total: taskScore.toFixed(1)
     });
   });
