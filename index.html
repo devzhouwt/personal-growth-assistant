@@ -282,6 +282,9 @@ tr:hover { background: var(--gray-50); }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 /* Daily task grid */
 .day-col { vertical-align: top; }
+.today-col { border-left: 2px solid #f59e0b; border-right: 2px solid #f59e0b; }
+thead .today-col { border-top: 2px solid #f59e0b; }
+tbody tr:last-child .today-col { border-bottom: 2px solid #f59e0b; }
 .day-header { font-weight: 700; font-size: 13px; color: var(--primary); }
 .day-date { font-size: 11px; color: var(--gray-500); }
 /* Toggle */
@@ -694,7 +697,7 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
       </div>
     </div>
     <div id="dailyFourElementFields" style="display:none;margin-bottom:12px">
-      <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px">
+      <div style="background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;padding:12px">
         <div style="font-weight:700;font-size:14px;color:#0369a1;margin-bottom:10px">四要素详情</div>
         <div class="form-group" style="margin-bottom:10px">
           <label>问题：具体要解决什么？</label>
@@ -1277,21 +1280,27 @@ function renderGoals(wdata, readonly) {
   if (!readonly) html += '<th>操作</th>';
   html += '</tr></thead><tbody id="goalsTableBody">';
   wdata.goals.forEach((g, idx) => {
-    let typeDisplay;
+    let typeDisplay, typeIcon;
     if (g.taskType === 'exploratory') {
       typeDisplay = '探索性任务';
+      typeIcon = '<svg style="width:12px;height:12px;vertical-align:-1px;margin-right:3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>';
+    } else if (g.taskSubtype === 'fourElement') {
+      typeDisplay = '四要素确定性任务';
+      typeIcon = '<svg style="width:12px;height:12px;vertical-align:-1px;margin-right:3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>';
     } else {
-      typeDisplay = subtypeFullLabels[g.taskSubtype] || '原生确定性任务';
+      typeDisplay = '原生确定性任务';
+      typeIcon = '<svg style="width:12px;height:12px;vertical-align:-1px;margin-right:3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
     }
-    const detailTip = getGoalDetailText(g);
-    const nameTipAttr = detailTip ? ` data-tip="${esc(detailTip)}"` : '';
+    // 任务名称不再单独设置 tooltip，避免与单元格 tooltip 重叠；详情已在"任务总时长/数量"列直接显示
+    const nameTipAttr = '';
     const bonusScore = wdata.scoreMode ? (g.scoreWeight * g.attendanceBonusRatio).toFixed(1) : '';
     const baseScore = wdata.scoreMode ? (g.scoreWeight - g.scoreWeight * g.attendanceBonusRatio).toFixed(1) : '';
     const dragAttrs = canDrag ? ` draggable="true" data-goal-id="${g.goalId}" data-idx="${idx}"` : '';
     html += `<tr${dragAttrs}>`;
     if (canDrag) html += `<td><span class="drag-handle" data-tip="拖拽可调整目标顺序，下方日计划会同步变化">⠿</span></td>`;
     html += `<td><strong${nameTipAttr}>${esc(g.taskName)}</strong></td>`;
-    html += `<td><span style="font-size:12px;padding:2px 8px;border-radius:10px;background:${g.taskType==='exploratory'?'#ede9fe;color:#6d28d9':'#dbeafe;color:#1d4ed8'}">${typeDisplay}</span></td>`;
+    const _typeColor = g.taskType==='exploratory'?'background:#ede9fe;color:#6d28d9':(g.taskSubtype==='fourElement'?'background:#dbeafe;color:#1d4ed8':'background:#dcfce7;color:#16a34a');
+    html += `<td><span style="font-size:12px;padding:2px 8px;border-radius:10px;${_typeColor}">${typeIcon}${typeDisplay}</span></td>`;
 
     let qtyDisplay = '';
     if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') {
@@ -1400,8 +1409,8 @@ function renderDailyTasks(wdata, days, readonly) {
   let html = '<table><thead><tr><th>任务</th>';
   days.forEach((d,i) => {
     const isToday = formatDate(new Date()) === d.date;
-    html += `<th class="day-col" style="${isToday?'background:#eef2ff':''}">
-      <div class="day-header">${d.dayName}</div>
+    html += `<th class="day-col${isToday?' today-col':''}">
+      <div class="day-header" style="${isToday?'font-weight:800;color:#ea580c':''}">${isToday?'今日':d.dayName}</div>
       <div class="day-date">${d.date.slice(5)}</div>
     </th>`;
   });
@@ -1420,6 +1429,8 @@ function renderDailyTasks(wdata, days, readonly) {
         const unit = esc(getGoalEffectiveUnit(g));
         const isFourEl = g.taskType === 'deterministic' && g.taskSubtype === 'fourElement';
         const isExploratory = g.taskType === 'exploratory';
+        // 根据任务类型确定单元格背景色
+        const taskTypeBg = isExploratory ? '#e9e4fd' : (isFourEl ? '#d6eafa' : '#d4f5d4');
         // 确定备注显示内容：优先自身备注，其次回退到周任务备注（探索性）或四要素信息（四要素确定性）
         let remarkText = task.remark || '';
         if (!remarkText) {
@@ -1448,7 +1459,7 @@ function renderDailyTasks(wdata, days, readonly) {
         const remarkHtml = remarkText
           ? `<span class="remark-icon" data-tip="存在备注"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span>`
           : '<span style="color:var(--gray-300)">—</span>';
-        html += `<td style="text-align:center;${isToday?'background:#eef2ff':''}">
+        html += `<td style="text-align:center;background:${taskTypeBg};" class="${isToday?'today-col':''}">
           <div class="daily-cell"${cellTip}>
             <div class="task-row">
               <span class="task-qty">${task.dailyQuantity}<span class="qty-unit">(${unit})</span></span>`;
@@ -1463,7 +1474,7 @@ function renderDailyTasks(wdata, days, readonly) {
         html += `</div>
           </div></td>`;
       } else {
-        html += `<td style="text-align:center;${isToday?'background:#eef2ff':''}">
+        html += `<td style="text-align:center;" class="${isToday?'today-col':''}">
           <span style="color:var(--gray-300)">—</span>`;
         if (!readonly) {
           html += `<div style="margin-top:6px"><button class="btn btn-outline btn-sm" style="padding:3px 8px;font-size:11px" onclick="quickAddDaily('${g.goalId}','${d.date}')">+</button></div>`;
@@ -1550,7 +1561,9 @@ function getGoalEffectiveUnit(g) {
 
 function getGoalDetailText(g) {
   if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') {
-    return `任务总时长：${g.totalDuration||''} ${esc(g.durationUnit||'')}\n四要素详情请在每日任务分配中查看`;
+    const dur = g.totalDuration || g.totalQuantity || 0;
+    const unit = g.durationUnit || g.unit || '';
+    return `任务总时长：${dur} ${esc(unit)}\n四要素详情请在每日任务分配中查看`;
   }
   if (g.taskType === 'exploratory') {
     return `探索对象：${g.exploreTarget||''}`;
