@@ -6,171 +6,198 @@
 <title>自我成长与习惯养成助手</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
 <style>
+/* ===== Ant Design 5.x Minimalist Style ===== */
 :root {
-  --primary: #4f46e5;
-  --primary-light: #818cf8;
-  --primary-bg: #eef2ff;
-  --success: #22c55e;
-  --danger: #ef4444;
-  --warning: #f59e0b;
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-500: #6b7280;
-  --gray-700: #374151;
-  --gray-900: #111827;
-  --radius: 12px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+  --primary: #1677ff;
+  --primary-hover: #4096ff;
+  --primary-active: #0958d9;
+  --primary-bg: #e6f4ff;
+  --primary-border: #91caff;
+  --success: #52c41a;
+  --success-bg: #f6ffed;
+  --danger: #ff4d4f;
+  --danger-bg: #fff2f0;
+  --warning: #faad14;
+  --warning-bg: #fffbe6;
+  --gray-50: #fafafa;
+  --gray-100: #f5f5f5;
+  --gray-200: #f0f0f0;
+  --gray-300: #d9d9d9;
+  --gray-400: #bfbfbf;
+  --gray-500: #8c8c8c;
+  --gray-600: #595959;
+  --gray-700: #434343;
+  --gray-900: #262626;
+  --radius: 6px;
+  --radius-lg: 8px;
+  --shadow: 0 1px 2px 0 rgba(0,0,0,0.03), 0 1px 6px -1px rgba(0,0,0,0.02), 0 2px 4px 0 rgba(0,0,0,0.02);
+  --shadow-lg: 0 6px 16px 0 rgba(0,0,0,0.08), 0 3px 6px -4px rgba(0,0,0,0.12), 0 9px 28px 8px rgba(0,0,0,0.05);
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: var(--font-family);
+  background: #f5f5f5;
   min-height: 100vh;
   color: var(--gray-900);
+  font-size: 14px;
+  line-height: 1.5714;
 }
 .app-container {
   max-width: 960px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
 }
 /* Header */
 .app-header {
   text-align: center;
-  padding: 30px 0 20px;
-  color: white;
+  padding: 32px 0 24px;
+  color: var(--gray-900);
 }
-.app-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
-.app-header p { opacity: 0.85; font-size: 14px; }
+.app-header h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; color: var(--gray-900); }
+.app-header p { color: var(--gray-500); font-size: 14px; }
 /* Week Navigator */
 .week-nav {
-  background: white;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
   padding: 16px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--gray-200);
 }
 .week-nav button {
-  background: var(--primary-bg);
-  color: var(--primary);
-  border: none;
-  padding: 8px 18px;
-  border-radius: 8px;
+  background: #fff;
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+  padding: 5px 16px;
+  border-radius: var(--radius);
   cursor: pointer;
   font-size: 14px;
-  font-weight: 600;
-  transition: all .2s;
+  font-weight: 400;
+  transition: all 0.2s;
+  height: 32px;
+  line-height: 20px;
 }
-.week-nav button:hover { background: var(--primary); color: white; }
+.week-nav button:hover { color: var(--primary); border-color: var(--primary); }
 .week-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-.week-nav .week-label { font-size: 18px; font-weight: 700; color: var(--gray-900); }
+.week-nav .week-label { font-size: 16px; font-weight: 600; color: var(--gray-900); }
 .week-nav .week-label.is-current {
   color: var(--primary);
 }
 .week-score {
   display: inline-block;
-  font-size: 22px;
-  font-weight: 800;
-  color: #ef4444;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--danger);
   margin-left: 10px;
   vertical-align: middle;
 }
 .week-nav .week-dates { font-size: 13px; color: var(--gray-500); }
 .current-week-badge {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-  color: white;
+  background: var(--primary);
+  color: #fff;
   font-size: 12px;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-weight: 600;
+  padding: 0 8px;
+  border-radius: var(--radius);
+  font-weight: 500;
   margin-left: 8px;
   display: inline-block;
+  height: 22px;
+  line-height: 22px;
 }
 .btn-back-current {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-  color: white !important;
-  border: none;
-  box-shadow: 0 2px 8px rgba(79,70,229,0.3);
+  background: var(--primary) !important;
+  color: #fff !important;
+  border: 1px solid var(--primary) !important;
 }
 .btn-back-current:hover {
-  box-shadow: 0 4px 12px rgba(79,70,229,0.5);
-  transform: translateY(-1px);
+  background: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
 }
 .readonly-badge {
   background: var(--warning);
-  color: white;
+  color: #fff;
   font-size: 12px;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-weight: 600;
+  padding: 0 8px;
+  border-radius: var(--radius);
+  font-weight: 500;
   margin-left: 10px;
+  height: 22px;
+  line-height: 22px;
+  display: inline-block;
 }
 /* Cards */
 .card {
-  background: white;
-  border-radius: var(--radius);
+  background: #fff;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   padding: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--gray-200);
 }
 .card-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--gray-900);
   margin-bottom: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--gray-200);
 }
-.card-title .icon { font-size: 20px; }
+.card-title .icon { font-size: 18px; }
 /* Toolbar */
 .toolbar {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 16px;
 }
 .btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 5px 16px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 400;
   cursor: pointer;
-  transition: all .2s;
+  transition: all 0.2s;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  height: 32px;
+  line-height: 20px;
+  background: #fff;
+  color: var(--gray-700);
 }
-.btn-primary { background: var(--primary); color: white; }
-.btn-primary:hover { background: #4338ca; }
-.btn-success { background: var(--success); color: white; }
-.btn-success:hover { background: #16a34a; }
-.btn-danger { background: var(--danger); color: white; }
-.btn-danger:hover { background: #dc2626; }
+.btn:hover { color: var(--primary); border-color: var(--primary); }
+.btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); color: #fff; }
+.btn-success { background: var(--success); color: #fff; border-color: var(--success); }
+.btn-success:hover { background: #73d13d; border-color: #73d13d; color: #fff; }
+.btn-danger { background: #fff; color: var(--danger); border-color: var(--danger); }
+.btn-danger:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
 .btn-outline {
-  background: white;
+  background: #fff;
   color: var(--primary);
-  border: 1.5px solid var(--primary);
+  border: 1px solid var(--primary);
 }
-.btn-outline:hover { background: var(--primary-bg); }
-.btn-sm { padding: 5px 10px; font-size: 12px; }
+.btn-outline:hover { background: var(--primary-bg); color: var(--primary); border-color: var(--primary); }
+.btn-sm { padding: 0 8px; font-size: 12px; height: 24px; line-height: 20px; }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 /* Table */
 table { width: 100%; border-collapse: collapse; }
 th, td {
-  padding: 10px 12px;
+  padding: 12px 16px;
   text-align: left;
   border-bottom: 1px solid var(--gray-200);
-  font-size: 13px;
+  font-size: 14px;
 }
-th { background: var(--gray-50); font-weight: 600; color: var(--gray-700); font-size: 12px; text-transform: uppercase; }
-tr:hover { background: var(--gray-50); }
+th { background: #fafafa; font-weight: 600; color: var(--gray-700); font-size: 14px; }
+tr:hover { background: #fafafa; }
 /* Form */
 .form-row {
   display: flex;
@@ -180,105 +207,109 @@ tr:hover { background: var(--gray-50); }
   flex-wrap: wrap;
 }
 .form-group { display: flex; flex-direction: column; gap: 4px; }
-.form-group label { font-size: 12px; font-weight: 600; color: var(--gray-500); }
+.form-group label { font-size: 14px; font-weight: 500; color: var(--gray-700); }
 .form-group input, .form-group select {
-  padding: 8px 12px;
-  border: 1.5px solid var(--gray-200);
-  border-radius: 8px;
-  font-size: 13px;
+  padding: 5px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  font-size: 14px;
   outline: none;
-  transition: border .2s;
+  transition: all 0.2s;
+  height: 32px;
+  line-height: 20px;
+  background: #fff;
+  color: var(--gray-900);
 }
-.form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+.form-group input:focus, .form-group select:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(5,145,255,0.1); }
 .form-group input[readonly] { background: var(--gray-100); color: var(--gray-500); }
 /* Progress */
 .progress-section { margin-bottom: 20px; }
-.progress-item { margin-bottom: 14px; }
+.progress-item { margin-bottom: 16px; }
 .progress-item .progress-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 6px;
-  font-size: 13px;
+  margin-bottom: 8px;
+  font-size: 14px;
 }
-.progress-item .progress-name { font-weight: 600; }
+.progress-item .progress-name { font-weight: 500; }
 .progress-item .progress-stats { color: var(--gray-500); }
 .progress-bar-bg {
-  height: 12px;
+  height: 8px;
   background: var(--gray-200);
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
 }
 .progress-bar-fill {
   height: 100%;
-  border-radius: 6px;
-  transition: width .4s ease;
-  background: linear-gradient(90deg, var(--primary-light), var(--primary));
+  border-radius: 4px;
+  transition: width 0.4s ease;
+  background: var(--primary);
 }
-.progress-bar-fill.complete { background: linear-gradient(90deg, #86efac, var(--success)); }
+.progress-bar-fill.complete { background: var(--success); }
 /* Checkbox */
-.task-check { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary); }
+.task-check { width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary); }
 .task-check:disabled { cursor: not-allowed; }
 /* Score Panel */
 .score-panel {
-  background: linear-gradient(135deg, var(--primary-bg), #f5f3ff);
-  border: 2px solid var(--primary-light);
-  border-radius: var(--radius);
-  padding: 20px;
+  background: var(--primary-bg);
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
   text-align: center;
 }
 .score-panel .score-total {
   font-size: 48px;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--primary);
   line-height: 1;
 }
-.score-panel .score-label { font-size: 13px; color: var(--gray-500); margin-top: 4px; }
+.score-panel .score-label { font-size: 14px; color: var(--gray-500); margin-top: 8px; }
 .score-detail { margin-top: 16px; text-align: left; }
-.score-detail table { font-size: 13px; }
-.score-detail th { background: var(--primary-bg); }
+.score-detail table { font-size: 14px; }
+.score-detail th { background: #fafafa; }
 /* Modal */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
 }
 .modal-overlay.active { opacity: 1; pointer-events: all; }
 .modal {
-  background: white;
-  border-radius: var(--radius);
+  background: #fff;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  padding: 28px;
-  max-width: 500px;
+  padding: 24px;
+  max-width: 520px;
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
-  transform: translateY(20px);
-  transition: transform .2s;
+  transform: scale(0.95);
+  transition: transform 0.2s;
 }
-.modal-overlay.active .modal { transform: translateY(0); }
-.modal h3 { font-size: 18px; margin-bottom: 16px; }
-.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.modal-overlay.active .modal { transform: scale(1); }
+.modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--gray-900); }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 24px; }
 /* Daily task grid */
 .day-col { vertical-align: top; }
-.day-header { font-weight: 700; font-size: 13px; color: var(--primary); }
-.day-date { font-size: 11px; color: var(--gray-500); }
+.day-header { font-weight: 600; font-size: 14px; color: var(--gray-900); }
+.day-date { font-size: 12px; color: var(--gray-500); }
 /* Toggle */
 .toggle-wrap { display: flex; align-items: center; gap: 8px; }
 .toggle {
   position: relative;
   width: 44px;
-  height: 24px;
+  height: 22px;
   background: var(--gray-300);
-  border-radius: 12px;
+  border-radius: 100px;
   cursor: pointer;
-  transition: background .2s;
+  transition: background 0.2s;
 }
 .toggle.active { background: var(--primary); }
 .toggle::after {
@@ -286,29 +317,30 @@ tr:hover { background: var(--gray-50); }
   position: absolute;
   top: 2px;
   left: 2px;
-  width: 20px;
-  height: 20px;
-  background: white;
+  width: 18px;
+  height: 18px;
+  background: #fff;
   border-radius: 50%;
-  transition: transform .2s;
+  transition: transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
 }
-.toggle.active::after { transform: translateX(20px); }
+.toggle.active::after { transform: translateX(22px); }
 /* Highlight error */
-.error-highlight { background: #fef2f2 !important; }
-.error-text { color: var(--danger); font-size: 12px; font-weight: 600; }
-.success-text { color: var(--success); font-size: 12px; font-weight: 600; }
+.error-highlight { background: var(--danger-bg) !important; }
+.error-text { color: var(--danger); font-size: 14px; font-weight: 500; }
+.success-text { color: var(--success); font-size: 14px; font-weight: 500; }
 /* Empty state */
 .empty-state {
   text-align: center;
   padding: 40px 20px;
   color: var(--gray-500);
 }
-.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.6; }
 .empty-state p { font-size: 14px; }
 /* Storage Status Bar */
 .storage-bar {
-  background: white;
-  border-radius: var(--radius);
+  background: #fff;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   padding: 12px 20px;
   margin-bottom: 16px;
@@ -317,17 +349,18 @@ tr:hover { background: var(--gray-50); }
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
+  border: 1px solid var(--gray-200);
 }
 .storage-bar .storage-info {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 14px;
   flex: 1;
   min-width: 0;
 }
 .storage-bar .storage-dot {
-  width: 10px; height: 10px;
+  width: 8px; height: 8px;
   border-radius: 50%;
   display: inline-block;
   flex-shrink: 0;
@@ -335,7 +368,7 @@ tr:hover { background: var(--gray-50); }
 .storage-dot.connected { background: var(--success); }
 .storage-dot.disconnected { background: var(--gray-300); }
 .storage-bar .storage-path {
-  font-weight: 600;
+  font-weight: 500;
   color: var(--gray-700);
   white-space: nowrap;
   overflow: hidden;
@@ -350,7 +383,7 @@ tr:hover { background: var(--gray-50); }
   font-size: 12px;
   color: var(--gray-500);
   margin-left: 8px;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   white-space: nowrap;
 }
 .save-indicator.saving { color: var(--warning); }
@@ -365,19 +398,19 @@ tr:hover { background: var(--gray-50); }
   bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background: var(--gray-900);
-  color: white;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
   font-size: 12px;
-  font-weight: 500;
-  padding: 7px 12px;
-  border-radius: 8px;
+  font-weight: 400;
+  padding: 6px 10px;
+  border-radius: var(--radius);
   white-space: pre-line;
   width: max-content;
   max-width: 280px;
   line-height: 1.5;
   pointer-events: none;
   opacity: 0;
-  transition: opacity .2s, transform .2s;
+  transition: opacity 0.2s, transform 0.2s;
   z-index: 999;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
@@ -387,11 +420,11 @@ tr:hover { background: var(--gray-50); }
   bottom: calc(100% + 2px);
   left: 50%;
   transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: var(--gray-900);
+  border: 5px solid transparent;
+  border-top-color: rgba(0,0,0,0.85);
   pointer-events: none;
   opacity: 0;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
   z-index: 999;
 }
 [data-tip]:hover::after,
@@ -407,44 +440,44 @@ tr:hover { background: var(--gray-50); }
   bottom: auto;
   top: calc(100% + 2px);
   border-top-color: transparent;
-  border-bottom-color: var(--gray-900);
+  border-bottom-color: rgba(0,0,0,0.85);
 }
 /* Drag & Drop */
 .drag-handle {
   cursor: grab;
-  color: var(--gray-300);
+  color: var(--gray-400);
   font-size: 16px;
   user-select: none;
   padding: 2px 4px;
-  transition: color .2s;
+  transition: color 0.2s;
   display: inline-block;
   line-height: 1;
 }
-.drag-handle:hover { color: var(--gray-500); }
+.drag-handle:hover { color: var(--gray-600); }
 .drag-handle:active { cursor: grabbing; }
-tr[draggable="true"] { transition: background .15s, opacity .15s; }
+tr[draggable="true"] { transition: background 0.15s, opacity 0.15s; }
 tr[draggable="true"]:hover { background: var(--gray-50); }
 tr.dragging { opacity: 0.4; background: var(--primary-bg); }
-tr.drag-over-top { box-shadow: inset 0 3px 0 0 var(--primary); }
-tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
+tr.drag-over-top { box-shadow: inset 0 2px 0 0 var(--primary); }
+tr.drag-over-bottom { box-shadow: inset 0 -2px 0 0 var(--primary); }
 /* Plan list */
 .plan-list-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 12px;
+  padding: 12px 16px;
   border: 1px solid var(--gray-200);
-  border-radius: 8px;
+  border-radius: var(--radius);
   margin-bottom: 8px;
-  transition: background .2s;
+  transition: all 0.2s;
 }
-.plan-list-item:hover { background: var(--gray-50); }
-.plan-list-item .plan-name { font-weight: 600; font-size: 14px; flex: 1; min-width: 0; }
-.plan-list-item .plan-meta { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
-.plan-list-item .plan-actions { display: flex; gap: 6px; flex-shrink: 0; margin-left: 12px; }
+.plan-list-item:hover { border-color: var(--primary); background: var(--primary-bg); }
+.plan-list-item .plan-name { font-weight: 500; font-size: 14px; flex: 1; min-width: 0; }
+.plan-list-item .plan-meta { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
+.plan-list-item .plan-actions { display: flex; gap: 8px; flex-shrink: 0; margin-left: 12px; }
 /* Responsive */
 @media (max-width: 640px) {
-  .app-container { padding: 10px; }
+  .app-container { padding: 12px; }
   .card { padding: 16px; }
   .form-row { flex-direction: column; }
   .toolbar { flex-direction: column; }
@@ -487,7 +520,7 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
     </div>
     <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
       <button id="btnNextWeek" onclick="navigateWeek(1)" data-tip="查看下一周的计划，可提前规划未来">下一周 ▶</button>
-      <button id="btnBackCurrent" class="btn-back-current" onclick="goToCurrentWeek()" style="display:none;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none" data-tip="一键返回当前日期所在的周计划页面">⏎ 回到当前周</button>
+      <button id="btnBackCurrent" class="btn-back-current" onclick="goToCurrentWeek()" style="display:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer" data-tip="一键返回当前日期所在的周计划页面">⏎ 回到当前周</button>
     </div>
   </div>
 
@@ -505,7 +538,7 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
       <button class="btn btn-outline" id="btnCopyLastWeek" onclick="copyLastWeekPlan()" data-tip="将上一周的周总目标和每日任务分配完整复制到当前周，日期按星期自动映射">📋 复制上周计划</button>
       <button class="btn btn-outline" id="btnSavePlan" onclick="showSavePlanModal()" data-tip="将当前周计划校验后保存到云端周计划库，所有周（含只读历史周）均可保存为模板">💾 保存计划</button>
       <button class="btn btn-outline" id="btnImportPlan" onclick="showImportPlanModal()" data-tip="从云端周计划库中选择一个已保存的计划模板，导入并覆盖当前周的数据">📥 导入计划</button>
-      <div class="toggle-wrap" id="scoreToggleWrap" style="margin-left:auto" data-tip="开启后需为每项任务设置分数权重(总和=100)和全勤奖比例，保存时每日任务量须严格等于目标量">        <span style="font-size:13px;font-weight:600">评分模式</span>
+      <div class="toggle-wrap" id="scoreToggleWrap" style="margin-left:auto" data-tip="开启后需为每项任务设置分数权重(总和=100)和全勤奖比例，保存时每日任务量须严格等于目标量">        <span style="font-size:14px;font-weight:500">评分模式</span>
         <div class="toggle" id="scoreToggle" onclick="toggleScoreMode()"></div>
       </div>
     </div>
@@ -537,7 +570,7 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
 <div class="modal-overlay" id="giteeConfigModal">
   <div class="modal">
     <h3>☁️ 配置 Gitee 云同步</h3>
-    <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">数据将保存在你的 Gitee 私有仓库中，打开任意设备均可同步。</p>
+    <p style="font-size:14px;color:var(--gray-500);margin-bottom:16px">数据将保存在你的 Gitee 私有仓库中，打开任意设备均可同步。</p>
     <div class="form-group" style="margin-bottom:12px">
       <label>Gitee 用户名（空间地址）</label>
       <input type="text" id="giteeOwner" placeholder="如：zhangsan" style="width:100%">
@@ -551,7 +584,7 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
       <input type="password" id="giteeToken" placeholder="在 Gitee 设置 → 私人令牌 中生成" style="width:100%">
     </div>
     <div id="giteeConfigError" class="error-text" style="margin-bottom:8px"></div>
-    <div style="font-size:12px;color:var(--gray-500);margin-bottom:12px;line-height:1.6">
+    <div style="font-size:12px;color:var(--gray-500);margin-bottom:12px;line-height:1.8">
       📌 获取令牌步骤：<br>
       1. 登录 Gitee → 右上角头像 → <strong>设置</strong><br>
       2. 左侧菜单 → <strong>私人令牌</strong><br>
@@ -606,15 +639,15 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
 
     <!-- 四要素确定性任务 fields -->
     <div id="fourElementFields" style="display:none">
-      <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px;margin-bottom:12px">
-        <div style="font-weight:700;font-size:14px;color:#0369a1;margin-bottom:10px">四要素</div>
+      <div style="background:var(--primary-bg);border:1px solid var(--primary-border);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px">
+        <div style="font-weight:600;font-size:14px;color:var(--primary-active);margin-bottom:12px">四要素</div>
         <div class="form-group" style="margin-bottom:12px">
           <label>问题：具体要解决什么？</label>
           <input type="text" id="goalQuestion" placeholder="如：学习comfyui角色一致性已有行业方案" style="width:100%" onkeydown="if(event.key==='Enter'){event.preventDefault();saveGoal()}">
         </div>
         <div class="form-group" style="margin-bottom:12px">
           <label>办法：通过什么路径解决？</label>
-          <input type="text" id="goalMethod" placeholder="如：找一个“角色一致性/IPAdapter工作流”的开源工程，下载下来，跑通它" style="width:100%" onkeydown="if(event.key==='Enter'){event.preventDefault();saveGoal()}">
+          <input type="text" id="goalMethod" placeholder="如：找一个"角色一致性/IPAdapter工作流"的开源工程，下载下来，跑通它" style="width:100%" onkeydown="if(event.key==='Enter'){event.preventDefault();saveGoal()}">
         </div>
         <div class="form-group" style="margin-bottom:12px">
           <label>预期：大概率能得到什么结果？</label>
@@ -709,7 +742,7 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
 <div class="modal-overlay" id="savePlanModal">
   <div class="modal">
     <h3>💾 保存当前周计划</h3>
-    <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">当前周计划将通过校验后保存到 Gitee 云端的"weekPlans"目录中，作为模板供以后导入使用。</p>
+    <p style="font-size:14px;color:var(--gray-500);margin-bottom:16px">当前周计划将通过校验后保存到 Gitee 云端的"weekPlans"目录中，作为模板供以后导入使用。</p>
     <div class="form-group" style="margin-bottom:12px">
       <label>计划名称</label>
       <input type="text" id="savePlanName" placeholder="如：2026年第27周-学习冲刺计划" style="width:100%" maxlength="100" onkeydown="if(event.key==='Enter'){event.preventDefault();savePlanToCloud()}">
@@ -726,7 +759,7 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
 <div class="modal-overlay" id="importPlanModal">
   <div class="modal">
     <h3>📥 导入计划</h3>
-    <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">从 Gitee 云端的"weekPlans"目录中选择要导入的计划模板，导入后将覆盖当前周的计划数据。</p>
+    <p style="font-size:14px;color:var(--gray-500);margin-bottom:16px">从 Gitee 云端的"weekPlans"目录中选择要导入的计划模板，导入后将覆盖当前周的计划数据。</p>
     <div id="importPlanList"></div>
     <div id="importPlanLoading" style="text-align:center;padding:20px;color:var(--gray-500)">⏳ 正在加载计划列表...</div>
     <div id="importPlanError" class="error-text" style="margin-bottom:8px"></div>
@@ -828,220 +861,96 @@ function showSaveIndicator(state) {
   setTimeout(() => { el.style.opacity = '0'; }, 4000);
 }
 
-// --- Gitee API ---
 async function fetchFromGitee() {
   const cfg = giteeConfig;
   const url = `https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${DATA_FILENAME}?access_token=${cfg.token}&_t=${Date.now()}`;
   try {
     const res = await fetch(url);
     console.log('[Gitee Fetch] Status:', res.status);
-    if (res.status === 404) {
-      currentFileSha = null;
-      console.log('[Gitee Fetch] File not found (404), will create on next push');
-      return {};
-    }
-    if (res.status === 401 || res.status === 403) {
-      throw new Error('认证失败(401/403)：请检查令牌是否有效、是否有 projects 权限');
-    }
-    if (!res.ok) {
-      const errText = await res.text().catch(() => '');
-      console.error('[Gitee Fetch] Error response:', errText);
-      throw new Error(`HTTP ${res.status}: ${errText.slice(0, 200)}`);
-    }
+    if (res.status === 404) { currentFileSha = null; return {}; }
+    if (res.status === 401 || res.status === 403) { throw new Error('认证失败(401/403)'); }
+    if (!res.ok) { const errText = await res.text().catch(() => ''); throw new Error(`HTTP ${res.status}`); }
     const json = await res.json();
-    console.log('[Gitee Fetch] Response keys:', Object.keys(json), 'Has content:', !!json.content);
     currentFileSha = json.sha;
-    if (!json.content) {
-      console.warn('[Gitee Fetch] No content field in response, full response:', JSON.stringify(json).slice(0, 500));
-      return {};
-    }
-    // content is base64 encoded
+    if (!json.content) return {};
     const decoded = decodeURIComponent(escape(atob(json.content.replace(/\n/g, ''))));
     return JSON.parse(decoded) || {};
   } catch (e) {
     console.error('[Gitee Fetch] Exception:', e);
-    // 区分「文件不存在」和「连接/认证失败」
-    if (e.message && (e.message.includes('401') || e.message.includes('403') || e.message.includes('认证'))) {
-      return null; // 认证问题
-    }
-    if (e.message && e.message.includes('404')) {
-      return null; // 仓库不存在
-    }
-    // 网络错误等
+    if (e.message && (e.message.includes('401') || e.message.includes('403') || e.message.includes('认证'))) return null;
+    if (e.message && e.message.includes('404')) return null;
     return null;
   }
 }
 
-// 检查仓库是否为空（无任何 commit），如果是则自动初始化
 async function ensureRepoInitialized() {
   const cfg = giteeConfig;
-  // 尝试获取仓库分支列表
   try {
     const res = await fetch(`https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/branches?access_token=${cfg.token}`);
     if (!res.ok) return false;
     const branches = await res.json();
-    if (Array.isArray(branches) && branches.length > 0) {
-      console.log('[Gitee] Repo has branches:', branches.map(b => b.name));
-      return true; // 仓库已有分支，无需初始化
-    }
-    console.log('[Gitee] Repo is empty (no branches), initializing...');
-  } catch (e) {
-    console.warn('[Gitee] Failed to check branches:', e);
-    return false;
-  }
-  // 仓库为空，调用初始化接口创建默认分支
+    if (Array.isArray(branches) && branches.length > 0) return true;
+  } catch (e) { return false; }
   try {
     const res = await fetch(`https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/init`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_token: cfg.token,
-        readme: '# Growth Assistant Data\n此仓库用于存储个人成长助手数据，请勿手动修改。'
-      })
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ access_token: cfg.token, readme: '# Growth Assistant Data' })
     });
-    if (res.ok) {
-      console.log('[Gitee] Repo initialized successfully');
-      return true;
-    }
-    const errText = await res.text().catch(() => '');
-    console.error('[Gitee] Init failed:', res.status, errText);
-    // 如果 init 接口不存在或失败，尝试直接通过 contents API 创建文件（作为第一次 commit）
+    if (res.ok) return true;
     return false;
-  } catch (e) {
-    console.error('[Gitee] Init exception:', e);
-    return false;
-  }
+  } catch (e) { return false; }
 }
 
 async function pushToGitee(data) {
   const cfg = giteeConfig;
   const url = `https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${DATA_FILENAME}`;
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-  const body = {
-    access_token: cfg.token,
-    content: content,
-    message: 'auto-sync: ' + new Date().toLocaleString('zh-CN')
-  };
-  if (currentFileSha) {
-    body.sha = currentFileSha;
-  }
+  const body = { access_token: cfg.token, content: content, message: 'auto-sync: ' + new Date().toLocaleString('zh-CN') };
+  if (currentFileSha) body.sha = currentFileSha;
   try {
-    console.log('[Gitee Push] Sending request, hasSha:', !!currentFileSha);
-    const res = await fetch(url, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
+    const res = await fetch(url, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     const resText = await res.text();
-    console.log('[Gitee Push] Status:', res.status, 'Response:', resText.slice(0, 300));
     if (!res.ok) {
       let errMsg = `HTTP ${res.status}`;
-      try {
-        const errData = JSON.parse(resText);
-        errMsg = errData.message || errMsg;
-      } catch {}
-      // 如果是空仓库导致创建失败，尝试初始化后重试
+      try { const errData = JSON.parse(resText); errMsg = errData.message || errMsg; } catch {}
       if (res.status === 409 || res.status === 500 || errMsg.includes('empty') || errMsg.includes('not exist')) {
-        console.log('[Gitee Push] Repo might be empty, trying to initialize...');
         const inited = await ensureRepoInitialized();
         if (inited) {
-          // 重试一次
-          delete body.sha;
-          currentFileSha = null;
-          const retryRes = await fetch(url, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-          });
+          delete body.sha; currentFileSha = null;
+          const retryRes = await fetch(url, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
           if (retryRes.ok) {
             const retryResult = await retryRes.json();
             currentFileSha = retryResult.content ? retryResult.content.sha : (retryResult.sha || null);
-            console.log('[Gitee Push] Retry succeeded!');
-            showSaveIndicator('saved');
-            return true;
+            showSaveIndicator('saved'); return true;
           }
         }
       }
       throw new Error(errMsg);
     }
     const result = JSON.parse(resText);
-    // Gitee API 返回的 SHA 可能在 result.content.sha 或 result.sha
     currentFileSha = (result.content && result.content.sha) || result.sha || null;
-    console.log('[Gitee Push] Success, new SHA:', currentFileSha);
-    showSaveIndicator('saved');
-    return true;
+    showSaveIndicator('saved'); return true;
   } catch (e) {
     console.error('[Gitee Push] Failed:', e);
     showSaveIndicator('error');
-    // 在状态栏显示具体错误原因
     document.getElementById('saveIndicator').textContent = '✗ 同步失败: ' + (e.message || '未知错误');
     return false;
   }
 }
 
-// --- localStorage cache ---
 let dataCache = null;
-
-function loadFromCache() {
-  try {
-    const raw = localStorage.getItem('growth_assistant_data');
-    return raw ? JSON.parse(raw) : null;
-  } catch { return null; }
-}
-
-function saveToCache(data) {
-  localStorage.setItem('growth_assistant_data', JSON.stringify(data));
-}
-
-// --- Core data access ---
-function loadAllData() {
-  if (dataCache) return dataCache;
-  const cached = loadFromCache();
-  dataCache = cached || {};
-  return dataCache;
-}
-
-function saveAllData(data) {
-  dataCache = data;
-  saveToCache(data);
-  if (giteeConnected) {
-    showSaveIndicator('saving');
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => { pushToGitee(data); }, 800);
-  }
-}
-
-function getWeekData(weekId) {
-  const all = loadAllData();
-  return all[weekId] || { goals: [], dailyTasks: [], scoreMode: false };
-}
-
-function setWeekData(weekId, data) {
-  const all = loadAllData();
-  all[weekId] = data;
-  saveAllData(all);
-}
-
-function getCurrentWeekData() {
-  return getWeekData(getWeekId(currentMonday));
-}
-
-function setCurrentWeekData(data) {
-  setWeekData(getWeekId(currentMonday), data);
-}
-
-// --- Gitee Config UI ---
+function loadFromCache() { try { const raw = localStorage.getItem('growth_assistant_data'); return raw ? JSON.parse(raw) : null; } catch { return null; } }
+function saveToCache(data) { localStorage.setItem('growth_assistant_data', JSON.stringify(data)); }
+function loadAllData() { if (dataCache) return dataCache; const cached = loadFromCache(); dataCache = cached || {}; return dataCache; }
+function saveAllData(data) { dataCache = data; saveToCache(data); if (giteeConnected) { showSaveIndicator('saving'); clearTimeout(saveTimer); saveTimer = setTimeout(() => { pushToGitee(data); }, 800); } }
+function getWeekData(weekId) { const all = loadAllData(); return all[weekId] || { goals: [], dailyTasks: [], scoreMode: false }; }
+function setWeekData(weekId, data) { const all = loadAllData(); all[weekId] = data; saveAllData(all); }
+function getCurrentWeekData() { return getWeekData(getWeekId(currentMonday)); }
+function setCurrentWeekData(data) { setWeekData(getWeekId(currentMonday), data); }
 function showGiteeConfigModal() {
   const cfg = getEffectiveConfig();
-  if (cfg) {
-    document.getElementById('giteeOwner').value = cfg.owner || '';
-    document.getElementById('giteeRepo').value = cfg.repo || '';
-    document.getElementById('giteeToken').value = cfg.token || '';
-  } else {
-    document.getElementById('giteeOwner').value = '';
-    document.getElementById('giteeRepo').value = '';
-    document.getElementById('giteeToken').value = '';
-  }
+  if (cfg) { document.getElementById('giteeOwner').value = cfg.owner || ''; document.getElementById('giteeRepo').value = cfg.repo || ''; document.getElementById('giteeToken').value = cfg.token || ''; }
+  else { document.getElementById('giteeOwner').value = ''; document.getElementById('giteeRepo').value = ''; document.getElementById('giteeToken').value = ''; }
   document.getElementById('giteeConfigError').textContent = '';
   openModal('giteeConfigModal');
 }
@@ -1051,171 +960,91 @@ async function saveGiteeConfig() {
   const repo = document.getElementById('giteeRepo').value.trim();
   const token = document.getElementById('giteeToken').value.trim();
   const errEl = document.getElementById('giteeConfigError');
-
   if (!owner) { errEl.textContent = '请输入 Gitee 用户名'; return; }
   if (!repo) { errEl.textContent = '请输入仓库名称'; return; }
   if (!token) { errEl.textContent = '请输入私人令牌'; return; }
-
   errEl.textContent = '';
   errEl.innerHTML = '<span style="color:var(--warning)">⏳ 正在验证连接...</span>';
-
-  const cfg = { owner, repo, token };
-  giteeConfig = cfg;
-
-  // 先检查仓库是否可访问
+  const cfg = { owner, repo, token }; giteeConfig = cfg;
   const remoteData = await fetchFromGitee();
   if (remoteData === null) {
     errEl.innerHTML = '<span style="color:var(--danger)">❌ 连接失败！请检查：<br>1. 用户名和仓库名是否正确<br>2. 令牌是否有效且有 projects 权限<br>3. 仓库是否存在<br><br>按 F12 打开控制台可查看具体错误</span>';
-    giteeConfig = null;
-    return;
+    giteeConfig = null; return;
   }
-
-  // 保存配置
   localStorage.setItem(GITEE_CONFIG_KEY, JSON.stringify(cfg));
-
-  // 合并远程数据和本地缓存
   const cacheData = loadFromCache() || {};
-  const merged = { ...cacheData, ...remoteData };
-  dataCache = merged;
-  saveToCache(merged);
-
-  // 推送到 Gitee（会处理空仓库初始化）
+  const merged = { ...cacheData, ...remoteData }; dataCache = merged; saveToCache(merged);
   errEl.innerHTML = '<span style="color:var(--warning)">⏳ 正在同步数据到 Gitee...</span>';
   const pushOk = await pushToGitee(merged);
-
-  if (!pushOk) {
-    errEl.innerHTML = '<span style="color:var(--danger)">⚠ 读取成功但推送失败，请按 F12 查看控制台错误信息。<br>可能原因：仓库为空需要先手动提交一个文件，或令牌权限不足。</span>';
-    // 仍然标记为已连接（因为读取是成功的），用户可以手动重试
-  }
-
-  giteeConnected = true;
-  closeModal('giteeConfigModal');
-  updateStorageUI();
-  document.getElementById('lastSyncTime').textContent = '⏱ ' + new Date().toLocaleTimeString('zh-CN');
-  render();
+  if (!pushOk) { errEl.innerHTML = '<span style="color:var(--danger)">⚠ 读取成功但推送失败，请按 F12 查看控制台错误信息。</span>'; }
+  giteeConnected = true; closeModal('giteeConfigModal'); updateStorageUI();
+  document.getElementById('lastSyncTime').textContent = '⏱ ' + new Date().toLocaleTimeString('zh-CN'); render();
 }
 
 function updateStorageUI() {
-  const dot = document.getElementById('storageDot');
-  const statusText = document.getElementById('storageStatusText');
-  const pathText = document.getElementById('storagePath');
-  const syncBtn = document.getElementById('btnSyncNow');
-  const exportBtn = document.getElementById('btnExportData');
+  const dot = document.getElementById('storageDot'); const statusText = document.getElementById('storageStatusText');
+  const pathText = document.getElementById('storagePath'); const syncBtn = document.getElementById('btnSyncNow'); const exportBtn = document.getElementById('btnExportData');
   if (giteeConnected) {
-    dot.className = 'storage-dot connected';
-    statusText.textContent = '已连接 Gitee 云同步';
+    dot.className = 'storage-dot connected'; statusText.textContent = '已连接 Gitee 云同步';
     pathText.textContent = `${giteeConfig.owner}/${giteeConfig.repo}/${DATA_FILENAME}`;
-    syncBtn.style.display = 'inline-flex';
-    exportBtn.style.display = 'inline-flex';
+    syncBtn.style.display = 'inline-flex'; exportBtn.style.display = 'inline-flex';
   } else {
-    dot.className = 'storage-dot disconnected';
-    statusText.textContent = '未配置云同步（数据暂存于本浏览器）';
-    pathText.textContent = '';
-    syncBtn.style.display = 'none';
-    exportBtn.style.display = 'none';
+    dot.className = 'storage-dot disconnected'; statusText.textContent = '未配置云同步（数据暂存于本浏览器）';
+    pathText.textContent = ''; syncBtn.style.display = 'none'; exportBtn.style.display = 'none';
   }
 }
 
 async function forceSyncFromGitee() {
-  if (!giteeConnected) return;
-  showSaveIndicator('saving');
+  if (!giteeConnected) return; showSaveIndicator('saving');
   const remoteData = await fetchFromGitee();
   if (remoteData !== null) {
-    const cacheData = loadFromCache() || {};
-    const merged = { ...cacheData, ...remoteData };
-    dataCache = merged;
-    saveToCache(merged);
-    const el = document.getElementById('saveIndicator');
-    el.style.opacity = '1';
-    el.textContent = '✓ 已拉取最新数据';
-    el.className = 'save-indicator saved';
+    const cacheData = loadFromCache() || {}; const merged = { ...cacheData, ...remoteData }; dataCache = merged; saveToCache(merged);
+    const el = document.getElementById('saveIndicator'); el.style.opacity = '1'; el.textContent = '✓ 已拉取最新数据'; el.className = 'save-indicator saved';
     setTimeout(() => { el.style.opacity = '0'; }, 4000);
-    document.getElementById('lastSyncTime').textContent = '⏱ ' + new Date().toLocaleTimeString('zh-CN');
-    render();
-  } else {
-    document.getElementById('saveIndicator').textContent = '✗ 拉取失败，按F12查看控制台';
-    document.getElementById('saveIndicator').className = 'save-indicator saving';
-  }
+    document.getElementById('lastSyncTime').textContent = '⏱ ' + new Date().toLocaleTimeString('zh-CN'); render();
+  } else { document.getElementById('saveIndicator').textContent = '✗ 拉取失败，按F12查看控制台'; document.getElementById('saveIndicator').className = 'save-indicator saving'; }
 }
 
-// --- Export data as downloadable file ---
 function exportDataToFile() {
-  const data = loadAllData();
-  const json = JSON.stringify(data, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = DATA_FILENAME;
-  a.click();
-  URL.revokeObjectURL(url);
+  const data = loadAllData(); const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' }); const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = DATA_FILENAME; a.click(); URL.revokeObjectURL(url);
 }
 
-// --- Auto-connect on page load ---
 async function initStorage() {
   const cfg = getEffectiveConfig();
-  if (!cfg) {
-    updateStorageUI();
-    return;
-  }
-  giteeConfig = cfg;
-  showSaveIndicator('saving');
+  if (!cfg) { updateStorageUI(); return; }
+  giteeConfig = cfg; showSaveIndicator('saving');
   const remoteData = await fetchFromGitee();
   if (remoteData !== null) {
-    const cacheData = loadFromCache() || {};
-    const merged = { ...cacheData, ...remoteData };
-    dataCache = merged;
-    saveToCache(merged);
-    giteeConnected = true;
-    showSaveIndicator('saved');
+    const cacheData = loadFromCache() || {}; const merged = { ...cacheData, ...remoteData }; dataCache = merged; saveToCache(merged);
+    giteeConnected = true; showSaveIndicator('saved');
     document.getElementById('lastSyncTime').textContent = '⏱ ' + new Date().toLocaleTimeString('zh-CN');
-    // 如果本地有数据但远端没有（空仓库），主动推送一次
-    if (Object.keys(cacheData).length > 0 && Object.keys(remoteData).length === 0) {
-      console.log('[Init] Local data exists but remote is empty, pushing...');
-      await pushToGitee(merged);
-    }
-  } else {
-    document.getElementById('saveIndicator').textContent = '✗ 连接Gitee失败，按F12查看控制台';
-    document.getElementById('saveIndicator').className = 'save-indicator saving';
-  }
+    if (Object.keys(cacheData).length > 0 && Object.keys(remoteData).length === 0) { await pushToGitee(merged); }
+  } else { document.getElementById('saveIndicator').textContent = '✗ 连接Gitee失败'; document.getElementById('saveIndicator').className = 'save-indicator saving'; }
   updateStorageUI();
 }
-
-// ========== Render ==========
 function render() {
   const weekId = getWeekId(currentMonday);
   const days = getWeekDays(currentMonday);
   const wdata = getCurrentWeekData();
   const readonly = isReadonly();
-
-  // Week nav
   const nowMonday = getMonday(new Date());
   const isCurrentWk = getWeekId(currentMonday) === getWeekId(nowMonday);
   const weekLabelEl = document.getElementById('weekLabel');
   weekLabelEl.textContent = `${currentMonday.getFullYear()}年 第${getWeekNumber(currentMonday)}周`;
   weekLabelEl.className = 'week-label' + (isCurrentWk ? ' is-current' : '');
-
-  // 显示历史周得分（仅评分模式且校验通过时，且仅为历史周）
   const weekScoreEl = document.getElementById('weekScore');
   const isPastWeek = currentMonday.getTime() < nowMonday.getTime();
   if (isPastWeek) {
     const totalScore = computeTotalScore(wdata);
-    if (totalScore !== null) {
-      weekScoreEl.textContent = `${totalScore.toFixed(1)}分`;
-      weekScoreEl.style.display = 'inline-block';
-    } else {
-      weekScoreEl.style.display = 'none';
-    }
-  } else {
-    weekScoreEl.style.display = 'none';
-  }
-
+    if (totalScore !== null) { weekScoreEl.textContent = `${totalScore.toFixed(1)}分`; weekScoreEl.style.display = 'inline-block'; }
+    else { weekScoreEl.style.display = 'none'; }
+  } else { weekScoreEl.style.display = 'none'; }
   document.getElementById('weekDates').textContent = `${formatDate(days[0].dateObj)} ~ ${formatDate(days[6].dateObj)}`;
   document.getElementById('currentWeekBadge').style.display = isCurrentWk ? 'inline-block' : 'none';
   document.getElementById('readonlyBadge').style.display = readonly ? 'inline-block' : 'none';
   document.getElementById('btnBackCurrent').style.display = isCurrentWk ? 'none' : 'block';
-
-  // Toolbar visibility — 保持工具栏始终可见，只读模式下隐藏编辑相关按钮
   document.getElementById('goalsToolbar').style.display = 'flex';
   document.getElementById('btnAddGoal').style.display = readonly ? 'none' : 'inline-flex';
   document.getElementById('btnCopyLastWeek').style.display = readonly ? 'none' : 'inline-flex';
@@ -1223,12 +1052,9 @@ function render() {
   document.getElementById('scoreToggleWrap').style.display = readonly ? 'none' : 'flex';
   document.getElementById('dailyToolbar').style.display = readonly ? 'none' : 'flex';
   document.getElementById('btnSave').style.display = readonly ? 'none' : 'inline-flex';
-
-  // Score toggle
   const toggle = document.getElementById('scoreToggle');
   if (wdata.scoreMode) toggle.classList.add('active'); else toggle.classList.remove('active');
   document.getElementById('btnScore').style.display = (wdata.scoreMode && wdata.goals.length > 0) ? 'inline-flex' : 'none';
-
   renderGoals(wdata, readonly);
   renderDailyTasks(wdata, days, readonly);
   renderProgress(wdata, days);
@@ -1242,7 +1068,6 @@ function renderGoals(wdata, readonly) {
   }
   const canDrag = !readonly && wdata.goals.length > 1;
   const subtypeFullLabels = { native: '原生确定性任务', fourElement: '四要素确定性任务' };
-
   let html = '<table><thead><tr>';
   if (canDrag) html += '<th style="width:30px"></th>';
   html += '<th>任务名称</th><th>任务类型</th><th>总量/时间</th>';
@@ -1251,36 +1076,25 @@ function renderGoals(wdata, readonly) {
   html += '</tr></thead><tbody id="goalsTableBody">';
   wdata.goals.forEach((g, idx) => {
     let typeDisplay;
-    if (g.taskType === 'exploratory') {
-      typeDisplay = '探索性任务';
-    } else {
-      typeDisplay = subtypeFullLabels[g.taskSubtype] || '原生确定性任务';
-    }
+    if (g.taskType === 'exploratory') { typeDisplay = '探索性任务'; }
+    else { typeDisplay = subtypeFullLabels[g.taskSubtype] || '原生确定性任务'; }
     const detailTip = getGoalDetailText(g);
     const nameTipAttr = detailTip ? ` data-tip="${esc(detailTip)}"` : '';
     const bonusScore = wdata.scoreMode ? (g.scoreWeight * g.attendanceBonusRatio).toFixed(1) : '';
     const baseScore = wdata.scoreMode ? (g.scoreWeight - g.scoreWeight * g.attendanceBonusRatio).toFixed(1) : '';
     const dragAttrs = canDrag ? ` draggable="true" data-goal-id="${g.goalId}" data-idx="${idx}"` : '';
     html += `<tr${dragAttrs}>`;
-    if (canDrag) html += `<td><span class="drag-handle" data-tip="拖拽可调整目标顺序，下方日计划会同步变化">⠿</span></td>`;
+    if (canDrag) html += `<td><span class="drag-handle" data-tip="拖拽可调整目标顺序">⠿</span></td>`;
     html += `<td><strong${nameTipAttr}>${esc(g.taskName)}</strong></td>`;
-    html += `<td><span style="font-size:12px;padding:2px 8px;border-radius:10px;background:${g.taskType==='exploratory'?'#ede9fe;color:#6d28d9':'#dbeafe;color:#1d4ed8'}">${typeDisplay}</span></td>`;
-
+    html += `<td><span style="font-size:12px;padding:0 7px;border-radius:4px;background:${g.taskType==='exploratory'?'#f9f0ff;color:#722ed1':'#e6f4ff;color:#1677ff'}">${typeDisplay}</span></td>`;
     let qtyDisplay = '';
-    if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') {
-      qtyDisplay = `${g.fourQuantity||''} ${esc(g.fourUnit||'')}`;
-    } else if (g.taskType === 'exploratory') {
-      qtyDisplay = `${g.exploreQuantity||''} ${esc(g.exploreUnit||'')}`;
-    } else {
-      qtyDisplay = `${g.totalQuantity||''} ${esc(g.unit||'')}`;
-    }
+    if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') { qtyDisplay = `${g.fourQuantity||''} ${esc(g.fourUnit||'')}`; }
+    else if (g.taskType === 'exploratory') { qtyDisplay = `${g.exploreQuantity||''} ${esc(g.exploreUnit||'')}`; }
+    else { qtyDisplay = `${g.totalQuantity||''} ${esc(g.unit||'')}`; }
     html += `<td style="white-space:nowrap">${qtyDisplay}</td>`;
-
     if (wdata.scoreMode) {
-      const sw = g.scoreWeight || 0;
-      const br = g.attendanceBonusRatio || 0;
-      const bs = (sw * br).toFixed(1);
-      const bsc = (sw - sw * br).toFixed(1);
+      const sw = g.scoreWeight || 0; const br = g.attendanceBonusRatio || 0;
+      const bs = (sw * br).toFixed(1); const bsc = (sw - sw * br).toFixed(1);
       html += `<td>${sw}分</td><td>${(br*100).toFixed(0)}%</td><td>${bs}分</td><td>${bsc}分</td>`;
     }
     if (!readonly) {
@@ -1293,7 +1107,6 @@ function renderGoals(wdata, readonly) {
   });
   html += '</tbody></table>';
   container.innerHTML = html;
-  // Bind drag events
   if (canDrag) initGoalDrag(wdata);
 }
 
@@ -1301,65 +1114,36 @@ function initGoalDrag(wdata) {
   const tbody = document.getElementById('goalsTableBody');
   if (!tbody) return;
   let dragSrcId = null;
-
   tbody.addEventListener('dragstart', (e) => {
-    const tr = e.target.closest('tr[draggable]');
-    if (!tr) return;
-    dragSrcId = tr.dataset.goalId;
-    tr.classList.add('dragging');
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', dragSrcId);
+    const tr = e.target.closest('tr[draggable]'); if (!tr) return;
+    dragSrcId = tr.dataset.goalId; tr.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragSrcId);
   });
-
   tbody.addEventListener('dragend', (e) => {
-    const tr = e.target.closest('tr[draggable]');
-    if (tr) tr.classList.remove('dragging');
-    tbody.querySelectorAll('tr').forEach(r => { r.classList.remove('drag-over-top','drag-over-bottom'); });
-    dragSrcId = null;
+    const tr = e.target.closest('tr[draggable]'); if (tr) tr.classList.remove('dragging');
+    tbody.querySelectorAll('tr').forEach(r => { r.classList.remove('drag-over-top','drag-over-bottom'); }); dragSrcId = null;
   });
-
   tbody.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    const tr = e.target.closest('tr[draggable]');
-    if (!tr || tr.dataset.goalId === dragSrcId) return;
-    const rect = tr.getBoundingClientRect();
-    const midY = rect.top + rect.height / 2;
+    e.preventDefault(); e.dataTransfer.dropEffect = 'move';
+    const tr = e.target.closest('tr[draggable]'); if (!tr || tr.dataset.goalId === dragSrcId) return;
+    const rect = tr.getBoundingClientRect(); const midY = rect.top + rect.height / 2;
     tbody.querySelectorAll('tr').forEach(r => { r.classList.remove('drag-over-top','drag-over-bottom'); });
-    if (e.clientY < midY) {
-      tr.classList.add('drag-over-top');
-    } else {
-      tr.classList.add('drag-over-bottom');
-    }
+    if (e.clientY < midY) { tr.classList.add('drag-over-top'); } else { tr.classList.add('drag-over-bottom'); }
   });
-
   tbody.addEventListener('dragleave', (e) => {
-    const tr = e.target.closest('tr[draggable]');
-    if (tr) { tr.classList.remove('drag-over-top','drag-over-bottom'); }
+    const tr = e.target.closest('tr[draggable]'); if (tr) { tr.classList.remove('drag-over-top','drag-over-bottom'); }
   });
-
   tbody.addEventListener('drop', (e) => {
     e.preventDefault();
-    const targetTr = e.target.closest('tr[draggable]');
-    if (!targetTr || !dragSrcId) return;
-    const targetId = targetTr.dataset.goalId;
-    if (targetId === dragSrcId) return;
-
-    const rect = targetTr.getBoundingClientRect();
-    const midY = rect.top + rect.height / 2;
+    const targetTr = e.target.closest('tr[draggable]'); if (!targetTr || !dragSrcId) return;
+    const targetId = targetTr.dataset.goalId; if (targetId === dragSrcId) return;
+    const rect = targetTr.getBoundingClientRect(); const midY = rect.top + rect.height / 2;
     const insertBefore = e.clientY < midY;
-
-    // Reorder goals array
-    const goals = wdata.goals;
-    const srcIdx = goals.findIndex(g => g.goalId === dragSrcId);
-    if (srcIdx < 0) return;
+    const goals = wdata.goals; const srcIdx = goals.findIndex(g => g.goalId === dragSrcId); if (srcIdx < 0) return;
     const [moved] = goals.splice(srcIdx, 1);
-    let targetIdx = goals.findIndex(g => g.goalId === targetId);
-    if (!insertBefore) targetIdx++;
+    let targetIdx = goals.findIndex(g => g.goalId === targetId); if (!insertBefore) targetIdx++;
     goals.splice(targetIdx, 0, moved);
-
-    setCurrentWeekData(wdata);
-    render();
+    setCurrentWeekData(wdata); render();
   });
 }
 
@@ -1369,19 +1153,15 @@ function renderDailyTasks(wdata, days, readonly) {
     container.innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>请先添加周总目标</p></div>';
     return;
   }
-
   let html = '<table><thead><tr><th>任务</th>';
   days.forEach((d,i) => {
     const isToday = formatDate(new Date()) === d.date;
-    html += `<th class="day-col" style="${isToday?'background:#eef2ff':''}">
-      <div class="day-header">${d.dayName}</div>
-      <div class="day-date">${d.date.slice(5)}</div>
-    </th>`;
+    html += `<th class="day-col" style="${isToday?'background:var(--primary-bg)':''}">
+      <div class="day-header">${d.dayName}</div><div class="day-date">${d.date.slice(5)}</div></th>`;
   });
   html += '<th>合计</th></tr></thead><tbody>';
-
   wdata.goals.forEach(g => {
-    html += `<tr><td><strong>${esc(g.taskName)}</strong><br><span style="font-size:12px;color:var(--gray-600);font-weight:500">单位：${esc(getGoalEffectiveUnit(g))}</span></td>`;
+    html += `<tr><td><strong>${esc(g.taskName)}</strong><br><span style="font-size:12px;color:var(--gray-500);font-weight:500">单位：${esc(getGoalEffectiveUnit(g))}</span></td>`;
     let sum = 0;
     days.forEach((d,i) => {
       const task = wdata.dailyTasks.find(t => t.goalId === g.goalId && t.date === d.date);
@@ -1391,19 +1171,19 @@ function renderDailyTasks(wdata, days, readonly) {
         const checked = task.isCompleted ? 'checked' : '';
         const disabled = readonly ? 'disabled' : '';
         const remarkTip = task.remark ? ` data-tip="📝 ${esc(task.remark)}"` : (getGoalDetailText(g) ? ` data-tip="${esc(getGoalDetailText(g))}"` : '');
-        html += `<td style="text-align:center;${isToday?'background:#eef2ff':''}">
-          <input type="checkbox" class="task-check" ${checked} ${disabled} onchange="toggleTask('${task.taskId}', this.checked)" data-tip="勾选表示当天任务已完成，会影响进度条和得分计算">
-          <div style="font-size:13px;font-weight:600;margin-top:2px"${remarkTip}>${task.dailyQuantity}${task.remark ? ' <span style="font-size:10px;color:var(--gray-500)">📝</span>' : ''}</div>`;
+        html += `<td style="text-align:center;${isToday?'background:var(--primary-bg)':''}">
+          <input type="checkbox" class="task-check" ${checked} ${disabled} onchange="toggleTask('${task.taskId}', this.checked)" data-tip="勾选表示当天任务已完成">
+          <div style="font-size:14px;font-weight:500;margin-top:2px"${remarkTip}>${task.dailyQuantity}${task.remark ? ' <span style="font-size:10px;color:var(--gray-500)">📝</span>' : ''}</div>`;
         if (!readonly) {
-          html += `<button class="btn btn-outline btn-sm" style="padding:2px 6px;font-size:11px;margin-top:2px" onclick="editDailyTask('${task.taskId}')" data-tip="修改该天的任务分配">改</button>`;
-          html += `<button class="btn btn-danger btn-sm" style="padding:2px 6px;font-size:11px;margin-top:2px" onclick="deleteDailyTask('${task.taskId}')" data-tip="删除该天的任务分配">删</button>`;
+          html += `<button class="btn btn-outline btn-sm" style="padding:0 4px;font-size:12px;height:22px;margin-top:2px" onclick="editDailyTask('${task.taskId}')" data-tip="修改该天的任务分配">改</button>`;
+          html += `<button class="btn btn-danger btn-sm" style="padding:0 4px;font-size:12px;height:22px;margin-top:2px" onclick="deleteDailyTask('${task.taskId}')" data-tip="删除该天的任务分配">删</button>`;
         }
         html += `</td>`;
       } else {
-        html += `<td style="text-align:center;${isToday?'background:#eef2ff':''}">
+        html += `<td style="text-align:center;${isToday?'background:var(--primary-bg)':''}">
           <span style="color:var(--gray-300)">—</span>`;
         if (!readonly) {
-          html += `<br><button class="btn btn-outline btn-sm" style="padding:2px 6px;font-size:11px;margin-top:2px" onclick="quickAddDaily('${g.goalId}','${d.date}')">+</button>`;
+          html += `<br><button class="btn btn-outline btn-sm" style="padding:0 4px;font-size:12px;height:22px;margin-top:2px" onclick="quickAddDaily('${g.goalId}','${d.date}')">+</button>`;
         }
         html += `</td>`;
       }
@@ -1426,9 +1206,7 @@ function renderProgress(wdata) {
   }
   let html = '';
   wdata.goals.forEach(g => {
-    const completedQty = wdata.dailyTasks
-      .filter(t => t.goalId === g.goalId && t.isCompleted)
-      .reduce((s,t) => s + t.dailyQuantity, 0);
+    const completedQty = wdata.dailyTasks.filter(t => t.goalId === g.goalId && t.isCompleted).reduce((s,t) => s + t.dailyQuantity, 0);
     const effQtyP = getGoalEffectiveQty(g);
     const pct = effQtyP > 0 ? Math.min(100, (completedQty / effQtyP) * 100) : 0;
     const completeClass = pct >= 100 ? 'complete' : '';
@@ -1437,88 +1215,32 @@ function renderProgress(wdata) {
         <span class="progress-name">${esc(g.taskName)}</span>
         <span class="progress-stats">${completedQty} / ${effQtyP} ${esc(getGoalEffectiveUnit(g))} (${pct.toFixed(0)}%)</span>
       </div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill ${completeClass}" style="width:${pct}%"></div>
-      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill ${completeClass}" style="width:${pct}%"></div></div>
     </div>`;
   });
   container.innerHTML = html;
 }
 
-function esc(s) {
-  const d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML.replace(/"/g, '&quot;');
-}
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML.replace(/"/g, '&quot;'); }
+function getGoalEffectiveQty(g) { if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') return g.fourQuantity || 0; if (g.taskType === 'exploratory') return g.exploreQuantity || 0; return g.totalQuantity || 0; }
+function getGoalEffectiveUnit(g) { if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') return g.fourUnit || ''; if (g.taskType === 'exploratory') return g.exploreUnit || ''; return g.unit || ''; }
+function getGoalDetailText(g) { if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') { return `问题：${g.question||''}\n办法：${g.method||''}\n预期：${g.expectation||''}`; } if (g.taskType === 'exploratory') { return `探索对象：${g.exploreTarget||''}`; } return ''; }
 
-function getGoalEffectiveQty(g) {
-  if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') return g.fourQuantity || 0;
-  if (g.taskType === 'exploratory') return g.exploreQuantity || 0;
-  return g.totalQuantity || 0;
-}
-
-function getGoalEffectiveUnit(g) {
-  if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') return g.fourUnit || '';
-  if (g.taskType === 'exploratory') return g.exploreUnit || '';
-  return g.unit || '';
-}
-
-function getGoalDetailText(g) {
-  if (g.taskType === 'deterministic' && g.taskSubtype === 'fourElement') {
-    return `问题：${g.question||''}\n办法：${g.method||''}\n预期：${g.expectation||''}`;
-  }
-  if (g.taskType === 'exploratory') {
-    return `探索对象：${g.exploreTarget||''}`;
-  }
-  return '';
-}
-
-// ========== Week Navigation ==========
-function navigateWeek(dir) {
-  const newMonday = new Date(currentMonday);
-  newMonday.setDate(newMonday.getDate() + dir * 7);
-  currentMonday = newMonday;
-  document.getElementById('validationResult').innerHTML = '';
-  document.getElementById('scoreResult').innerHTML = '';
-  render();
-}
-
-function goToCurrentWeek() {
-  currentMonday = getMonday(new Date());
-  document.getElementById('validationResult').innerHTML = '';
-  document.getElementById('scoreResult').innerHTML = '';
-  render();
-}
-
-// ========== Goal CRUD ==========
+function navigateWeek(dir) { const newMonday = new Date(currentMonday); newMonday.setDate(newMonday.getDate() + dir * 7); currentMonday = newMonday; document.getElementById('validationResult').innerHTML = ''; document.getElementById('scoreResult').innerHTML = ''; render(); }
+function goToCurrentWeek() { currentMonday = getMonday(new Date()); document.getElementById('validationResult').innerHTML = ''; document.getElementById('scoreResult').innerHTML = ''; render(); }
 function updateGoalFormVisibility() {
   const taskType = document.getElementById('goalTaskType').value;
   const subtype = document.getElementById('goalTaskSubtype').value;
   const wdata = getCurrentWeekData();
-
-  // 任务子类型只在确定性任务时显示
   document.getElementById('goalSubtypeWrap').style.display = taskType === 'deterministic' ? '' : 'none';
-
-  // 三种表单区域显隐
-  document.getElementById('nativeFields').style.display =
-    (taskType === 'deterministic' && subtype === 'native') ? '' : 'none';
-  document.getElementById('fourElementFields').style.display =
-    (taskType === 'deterministic' && subtype === 'fourElement') ? '' : 'none';
-  document.getElementById('exploratoryFields').style.display =
-    (taskType === 'exploratory') ? '' : 'none';
-
-  // 评分字段：所有任务类型在评分模式下均显示
+  document.getElementById('nativeFields').style.display = (taskType === 'deterministic' && subtype === 'native') ? '' : 'none';
+  document.getElementById('fourElementFields').style.display = (taskType === 'deterministic' && subtype === 'fourElement') ? '' : 'none';
+  document.getElementById('exploratoryFields').style.display = (taskType === 'exploratory') ? '' : 'none';
   const showScore = wdata.scoreMode;
   document.getElementById('scoreFields').style.display = showScore ? 'block' : 'none';
 }
-
-function onTaskTypeChange() {
-  updateGoalFormVisibility();
-}
-
-function onTaskSubtypeChange() {
-  updateGoalFormVisibility();
-}
+function onTaskTypeChange() { updateGoalFormVisibility(); }
+function onTaskSubtypeChange() { updateGoalFormVisibility(); }
 
 function showAddGoalModal() {
   editingGoalId = null;
@@ -1575,26 +1297,17 @@ function saveGoal() {
   const taskSubtype = document.getElementById('goalTaskSubtype').value;
   const errEl = document.getElementById('goalModalError');
   const wdata = getCurrentWeekData();
-
   if (!name) { errEl.textContent = '请输入任务名称'; return; }
-
-  let qty = 0, unit = '';
-  let question = '', method = '', expectation = '';
-  let fourQty = 0, fourUnit = '';
-  let exploreTarget = '', exploreQty = 0, exploreUnit = '';
+  let qty = 0, unit = '', question = '', method = '', expectation = '';
+  let fourQty = 0, fourUnit = '', exploreTarget = '', exploreQty = 0, exploreUnit = '';
   let scoreWeight = 0, bonusRatio = 0;
-
   if (taskType === 'deterministic') {
     if (taskSubtype === 'native') {
       qty = parseFloat(document.getElementById('goalTotalQty').value);
       unit = document.getElementById('goalUnit').value.trim();
       if (!qty || qty <= 0) { errEl.textContent = '请输入有效的目标总量'; return; }
       if (!unit) { errEl.textContent = '请输入计量单位'; return; }
-      if (wdata.scoreMode) {
-        scoreWeight = parseInt(document.getElementById('goalScoreWeight').value) || 0;
-        bonusRatio = (parseInt(document.getElementById('goalBonusRatio').value) || 0) / 100;
-        if (scoreWeight < 0) { errEl.textContent = '评分模式下分数权重不能为负数'; return; }
-      }
+      if (wdata.scoreMode) { scoreWeight = parseInt(document.getElementById('goalScoreWeight').value) || 0; bonusRatio = (parseInt(document.getElementById('goalBonusRatio').value) || 0) / 100; if (scoreWeight < 0) { errEl.textContent = '评分模式下分数权重不能为负数'; return; } }
     } else if (taskSubtype === 'fourElement') {
       question = document.getElementById('goalQuestion').value.trim();
       method = document.getElementById('goalMethod').value.trim();
@@ -1606,11 +1319,7 @@ function saveGoal() {
       if (!expectation) { errEl.textContent = '请输入预期'; return; }
       if (!fourQty || fourQty <= 0) { errEl.textContent = '请输入有效的时间'; return; }
       if (!fourUnit) { errEl.textContent = '请输入时间单位'; return; }
-      if (wdata.scoreMode) {
-        scoreWeight = parseInt(document.getElementById('goalScoreWeight').value) || 0;
-        bonusRatio = (parseInt(document.getElementById('goalBonusRatio').value) || 0) / 100;
-        if (scoreWeight < 0) { errEl.textContent = '评分模式下分数权重不能为负数'; return; }
-      }
+      if (wdata.scoreMode) { scoreWeight = parseInt(document.getElementById('goalScoreWeight').value) || 0; bonusRatio = (parseInt(document.getElementById('goalBonusRatio').value) || 0) / 100; if (scoreWeight < 0) { errEl.textContent = '评分模式下分数权重不能为负数'; return; } }
     }
   } else if (taskType === 'exploratory') {
     exploreTarget = document.getElementById('goalExploreTarget').value.trim();
@@ -1619,40 +1328,12 @@ function saveGoal() {
     if (!exploreTarget) { errEl.textContent = '请输入探索对象'; return; }
     if (!exploreQty || exploreQty <= 0) { errEl.textContent = '请输入有效的时间盒分配'; return; }
     if (!exploreUnit) { errEl.textContent = '请输入时间单位'; return; }
-    if (wdata.scoreMode) {
-      scoreWeight = parseInt(document.getElementById('goalScoreWeight').value) || 0;
-      bonusRatio = (parseInt(document.getElementById('goalBonusRatio').value) || 0) / 100;
-      if (scoreWeight < 0) { errEl.textContent = '评分模式下分数权重不能为负数'; return; }
-    }
+    if (wdata.scoreMode) { scoreWeight = parseInt(document.getElementById('goalScoreWeight').value) || 0; bonusRatio = (parseInt(document.getElementById('goalBonusRatio').value) || 0) / 100; if (scoreWeight < 0) { errEl.textContent = '评分模式下分数权重不能为负数'; return; } }
   }
-
-  const goalData = {
-    taskName: name,
-    taskType,
-    taskSubtype,
-    totalQuantity: qty,
-    unit,
-    question,
-    method,
-    expectation,
-    fourQuantity: fourQty,
-    fourUnit,
-    exploreTarget,
-    exploreQuantity: exploreQty,
-    exploreUnit,
-    scoreWeight,
-    attendanceBonusRatio: bonusRatio
-  };
-
-  if (editingGoalId) {
-    const g = wdata.goals.find(x => x.goalId === editingGoalId);
-    if (g) Object.assign(g, goalData);
-  } else {
-    wdata.goals.push({ goalId: uuid(), weekIdentifier: getWeekId(currentMonday), ...goalData });
-  }
-  setCurrentWeekData(wdata);
-  closeModal('goalModal');
-  render();
+  const goalData = { taskName: name, taskType, taskSubtype, totalQuantity: qty, unit, question, method, expectation, fourQuantity: fourQty, fourUnit, exploreTarget, exploreQuantity: exploreQty, exploreUnit, scoreWeight, attendanceBonusRatio: bonusRatio };
+  if (editingGoalId) { const g = wdata.goals.find(x => x.goalId === editingGoalId); if (g) Object.assign(g, goalData); }
+  else { wdata.goals.push({ goalId: uuid(), weekIdentifier: getWeekId(currentMonday), ...goalData }); }
+  setCurrentWeekData(wdata); closeModal('goalModal'); render();
 }
 
 function deleteGoal(goalId) {
@@ -1660,15 +1341,10 @@ function deleteGoal(goalId) {
   const wdata = getCurrentWeekData();
   wdata.goals = wdata.goals.filter(g => g.goalId !== goalId);
   wdata.dailyTasks = wdata.dailyTasks.filter(t => t.goalId !== goalId);
-  setCurrentWeekData(wdata);
-  render();
+  setCurrentWeekData(wdata); render();
 }
-
-// ========== Daily Task CRUD ==========
 function showAddDailyModal() {
-  editingDailyId = null;
-  const wdata = getCurrentWeekData();
-  const days = getWeekDays(currentMonday);
+  editingDailyId = null; const wdata = getCurrentWeekData(); const days = getWeekDays(currentMonday);
   const sel = document.getElementById('dailyGoalSelect');
   sel.innerHTML = wdata.goals.map(g => `<option value="${g.goalId}">${esc(g.taskName)}</option>`).join('');
   const dateSel = document.getElementById('dailyDateSelect');
@@ -1677,20 +1353,13 @@ function showAddDailyModal() {
   document.getElementById('dailyUnit').value = wdata.goals.length > 0 ? getGoalEffectiveUnit(wdata.goals[0]) : '';
   document.getElementById('dailyRemark').value = '';
   document.getElementById('dailyModalError').textContent = '';
-
-  sel.onchange = () => {
-    const g = wdata.goals.find(x => x.goalId === sel.value);
-    document.getElementById('dailyUnit').value = g ? getGoalEffectiveUnit(g) : '';
-  };
-
+  sel.onchange = () => { const g = wdata.goals.find(x => x.goalId === sel.value); document.getElementById('dailyUnit').value = g ? getGoalEffectiveUnit(g) : ''; };
   document.getElementById('dailyModalTitle').textContent = '添加每日任务';
   openModal('dailyModal');
 }
 
 function quickAddDaily(goalId, date) {
-  editingDailyId = null;
-  const wdata = getCurrentWeekData();
-  const days = getWeekDays(currentMonday);
+  editingDailyId = null; const wdata = getCurrentWeekData(); const days = getWeekDays(currentMonday);
   const sel = document.getElementById('dailyGoalSelect');
   sel.innerHTML = wdata.goals.map(x => `<option value="${x.goalId}" ${x.goalId===goalId?'selected':''}>${esc(x.taskName)}</option>`);
   sel.disabled = false;
@@ -1702,20 +1371,14 @@ function quickAddDaily(goalId, date) {
   document.getElementById('dailyRemark').value = '';
   document.getElementById('dailyModalError').textContent = '';
   document.getElementById('dailyModalTitle').textContent = '添加每日任务';
-  sel.onchange = () => {
-    const gg = wdata.goals.find(x => x.goalId === sel.value);
-    document.getElementById('dailyUnit').value = gg ? getGoalEffectiveUnit(gg) : '';
-  };
+  sel.onchange = () => { const gg = wdata.goals.find(x => x.goalId === sel.value); document.getElementById('dailyUnit').value = gg ? getGoalEffectiveUnit(gg) : ''; };
   openModal('dailyModal');
 }
 
 function editDailyTask(taskId) {
-  const wdata = getCurrentWeekData();
-  const task = wdata.dailyTasks.find(t => t.taskId === taskId);
-  if (!task) return;
-  editingDailyId = taskId;
-  const g = wdata.goals.find(x => x.goalId === task.goalId);
-  const days = getWeekDays(currentMonday);
+  const wdata = getCurrentWeekData(); const task = wdata.dailyTasks.find(t => t.taskId === taskId);
+  if (!task) return; editingDailyId = taskId;
+  const g = wdata.goals.find(x => x.goalId === task.goalId); const days = getWeekDays(currentMonday);
   const sel = document.getElementById('dailyGoalSelect');
   sel.innerHTML = wdata.goals.map(x => `<option value="${x.goalId}" ${x.goalId===task.goalId?'selected':''}>${esc(x.taskName)}</option>`);
   const dateSel = document.getElementById('dailyDateSelect');
@@ -1725,10 +1388,7 @@ function editDailyTask(taskId) {
   document.getElementById('dailyRemark').value = task.remark || '';
   document.getElementById('dailyModalError').textContent = '';
   document.getElementById('dailyModalTitle').textContent = '编辑每日任务';
-  sel.onchange = () => {
-    const gg = wdata.goals.find(x => x.goalId === sel.value);
-    document.getElementById('dailyUnit').value = gg ? getGoalEffectiveUnit(gg) : '';
-  };
+  sel.onchange = () => { const gg = wdata.goals.find(x => x.goalId === sel.value); document.getElementById('dailyUnit').value = gg ? getGoalEffectiveUnit(gg) : ''; };
   openModal('dailyModal');
 }
 
@@ -1741,13 +1401,10 @@ function saveDailyTask() {
   if (!goalId) { errEl.textContent = '请选择任务'; return; }
   if (!date) { errEl.textContent = '请选择日期'; return; }
   if (isNaN(qty) || qty < 0) { errEl.textContent = '请输入有效的任务量'; return; }
-
   const wdata = getCurrentWeekData();
-
   if (editingDailyId) {
     const task = wdata.dailyTasks.find(t => t.taskId === editingDailyId);
     if (task) {
-      // Check if another task exists for same goal+date (excluding current)
       const dup = wdata.dailyTasks.find(t => t.goalId === goalId && t.date === date && t.taskId !== editingDailyId);
       if (dup) { errEl.textContent = '该任务在此日期已有分配，请先删除已有的'; return; }
       task.goalId = goalId; task.date = date; task.dailyQuantity = qty; task.remark = remark;
@@ -1755,279 +1412,135 @@ function saveDailyTask() {
   } else {
     const existing = wdata.dailyTasks.find(t => t.goalId === goalId && t.date === date);
     if (existing) { errEl.textContent = '该任务在此日期已有分配，请修改已有任务'; return; }
-    wdata.dailyTasks.push({
-      taskId: uuid(), weekIdentifier: getWeekId(currentMonday),
-      date, goalId, dailyQuantity: qty, isCompleted: false, remark
-    });
+    wdata.dailyTasks.push({ taskId: uuid(), weekIdentifier: getWeekId(currentMonday), date, goalId, dailyQuantity: qty, isCompleted: false, remark });
   }
-  setCurrentWeekData(wdata);
-  closeModal('dailyModal');
-  render();
+  setCurrentWeekData(wdata); closeModal('dailyModal'); render();
 }
 
-function toggleTask(taskId, checked) {
-  const wdata = getCurrentWeekData();
-  const task = wdata.dailyTasks.find(t => t.taskId === taskId);
-  if (task) { task.isCompleted = checked; setCurrentWeekData(wdata); render(); }
-}
+function toggleTask(taskId, checked) { const wdata = getCurrentWeekData(); const task = wdata.dailyTasks.find(t => t.taskId === taskId); if (task) { task.isCompleted = checked; setCurrentWeekData(wdata); render(); } }
+function deleteDailyTask(taskId) { const wdata = getCurrentWeekData(); wdata.dailyTasks = wdata.dailyTasks.filter(t => t.taskId !== taskId); setCurrentWeekData(wdata); render(); }
+function toggleScoreMode() { const wdata = getCurrentWeekData(); wdata.scoreMode = !wdata.scoreMode; setCurrentWeekData(wdata); render(); }
 
-function deleteDailyTask(taskId) {
-  const wdata = getCurrentWeekData();
-  wdata.dailyTasks = wdata.dailyTasks.filter(t => t.taskId !== taskId);
-  setCurrentWeekData(wdata);
-  render();
-}
-
-// ========== Score Mode ==========
-function toggleScoreMode() {
-  const wdata = getCurrentWeekData();
-  wdata.scoreMode = !wdata.scoreMode;
-  setCurrentWeekData(wdata);
-  render();
-}
-
-// ========== Validation ==========
-// 提取纯校验逻辑，返回 { allPass, results }
 function validateCurrentWeek() {
-  const wdata = getCurrentWeekData();
-  const results = [];
-  let allPass = true;
-
+  const wdata = getCurrentWeekData(); const results = []; let allPass = true;
   wdata.goals.forEach(g => {
-    const sum = wdata.dailyTasks
-      .filter(t => t.goalId === g.goalId)
-      .reduce((s,t) => s + t.dailyQuantity, 0);
+    const sum = wdata.dailyTasks.filter(t => t.goalId === g.goalId).reduce((s,t) => s + t.dailyQuantity, 0);
     const target = getGoalEffectiveQty(g);
-
     if (wdata.scoreMode) {
-      if (sum !== target) {
-        allPass = false;
-        results.push({ name: g.taskName, sum, target, pass: false,
-          msg: `评分模式下，每日任务量之和必须严格等于目标量（当前: ${sum}，目标: ${target}）` });
-      } else {
-        results.push({ name: g.taskName, sum, target, pass: true, msg: '✓ 校验通过' });
-      }
+      if (sum !== target) { allPass = false; results.push({ name: g.taskName, sum, target, pass: false, msg: `评分模式下，每日任务量之和必须严格等于目标量（当前: ${sum}，目标: ${target}）` }); }
+      else { results.push({ name: g.taskName, sum, target, pass: true, msg: '✓ 校验通过' }); }
     } else {
-      if (sum < target) {
-        allPass = false;
-        results.push({ name: g.taskName, sum, target, pass: false,
-          msg: `每日任务量总和不足（当前: ${sum}，需要: ${target}）` });
-      } else {
-        results.push({ name: g.taskName, sum, target, pass: true, msg: '✓ 校验通过' });
-      }
+      if (sum < target) { allPass = false; results.push({ name: g.taskName, sum, target, pass: false, msg: `每日任务量总和不足（当前: ${sum}，需要: ${target}）` }); }
+      else { results.push({ name: g.taskName, sum, target, pass: true, msg: '✓ 校验通过' }); }
     }
   });
-
   if (wdata.scoreMode && wdata.goals.length > 0) {
     const totalWeight = wdata.goals.reduce((s,g) => s + (g.scoreWeight || 0), 0);
-    if (totalWeight !== 100) {
-      allPass = false;
-      results.push({ name: '分数权重校验', pass: false, msg: `所有任务的分数权重之和必须等于100（当前: ${totalWeight}）` });
-    }
+    if (totalWeight !== 100) { allPass = false; results.push({ name: '分数权重校验', pass: false, msg: `所有任务的分数权重之和必须等于100（当前: ${totalWeight}）` }); }
   }
-
   return { allPass, results, goalCount: wdata.goals.length };
 }
 
 function saveAndValidate() {
   const { allPass, results, goalCount } = validateCurrentWeek();
-  // 清空之前的得分结果
   document.getElementById('scoreResult').innerHTML = '';
-
   let html = '<div style="margin-top:16px">';
-  if (allPass && goalCount > 0) {
-    html += '<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;color:#166534"><strong>✅ 校验全部通过！</strong></div>';
-  } else if (goalCount === 0) {
-    html += '<div style="background:#fefce8;border:1px solid #fef08a;border-radius:8px;padding:12px;color:#854d0e"><strong>⚠ 请先添加周总目标</strong></div>';
-  } else {
-    html += '<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px"><strong style="color:#991b1b">❌ 校验未通过，请修正以下问题：</strong>';
+  if (allPass && goalCount > 0) { html += '<div style="background:var(--success-bg);border:1px solid #b7eb8f;border-radius:6px;padding:12px;color:#389e0d"><strong>✅ 校验全部通过！</strong></div>'; }
+  else if (goalCount === 0) { html += '<div style="background:var(--warning-bg);border:1px solid #ffe58f;border-radius:6px;padding:12px;color:#d48806"><strong>⚠ 请先添加周总目标</strong></div>'; }
+  else {
+    html += '<div style="background:var(--danger-bg);border:1px solid #ffccc7;border-radius:6px;padding:12px"><strong style="color:#cf1322">❌ 校验未通过，请修正以下问题：</strong>';
     html += '<ul style="margin-top:8px;padding-left:20px">';
-    results.forEach(r => {
-      if (!r.pass) html += `<li style="color:#dc2626;margin-bottom:4px"><strong>${esc(r.name)}</strong>: ${r.msg}</li>`;
-    });
+    results.forEach(r => { if (!r.pass) html += `<li style="color:var(--danger);margin-bottom:4px"><strong>${esc(r.name)}</strong>: ${r.msg}</li>`; });
     html += '</ul></div>';
   }
   html += '</div>';
   document.getElementById('validationResult').innerHTML = html;
 }
-
-// ========== Score Calculation ==========
-// 计算当前周总得分（纯计算，无 UI），返回 null 表示不满足显示条件
 function computeTotalScore(wdata) {
   if (!wdata.scoreMode || wdata.goals.length === 0) return null;
-
-  // 校验计划
   let allPass = true;
   for (const g of wdata.goals) {
-    const sum = wdata.dailyTasks
-      .filter(t => t.goalId === g.goalId)
-      .reduce((s,t) => s + t.dailyQuantity, 0);
+    const sum = wdata.dailyTasks.filter(t => t.goalId === g.goalId).reduce((s,t) => s + t.dailyQuantity, 0);
     if (sum !== getGoalEffectiveQty(g)) { allPass = false; break; }
   }
-  if (allPass) {
-    const totalWeight = wdata.goals.reduce((s,g) => s + (g.scoreWeight || 0), 0);
-    if (totalWeight !== 100) allPass = false;
-  }
+  if (allPass) { const totalWeight = wdata.goals.reduce((s,g) => s + (g.scoreWeight || 0), 0); if (totalWeight !== 100) allPass = false; }
   if (!allPass) return null;
-
-  // 计算得分
   let totalScore = 0;
   wdata.goals.forEach(g => {
     const baseScoreFull = g.scoreWeight - g.scoreWeight * g.attendanceBonusRatio;
     const bonusScoreFull = g.scoreWeight * g.attendanceBonusRatio;
-
-    const completedQty = wdata.dailyTasks
-      .filter(t => t.goalId === g.goalId && t.isCompleted)
-      .reduce((s,t) => s + t.dailyQuantity, 0);
-
+    const completedQty = wdata.dailyTasks.filter(t => t.goalId === g.goalId && t.isCompleted).reduce((s,t) => s + t.dailyQuantity, 0);
     const effQtyC = getGoalEffectiveQty(g);
     const baseScore = effQtyC > 0 ? (completedQty / effQtyC) * baseScoreFull : 0;
-
     const goalTasks = wdata.dailyTasks.filter(t => t.goalId === g.goalId);
     const allCompleted = goalTasks.length > 0 && goalTasks.every(t => t.isCompleted);
     const plannedSum = goalTasks.reduce((s,t) => s + t.dailyQuantity, 0);
     const attendanceBonus = (allCompleted && plannedSum >= effQtyC) ? bonusScoreFull : 0;
-
     totalScore += baseScore + attendanceBonus;
   });
-
   return totalScore;
 }
 
 function calculateScore() {
-  // 先校验计划，不通过则阻止计算
   const { allPass, results, goalCount } = validateCurrentWeek();
-  if (goalCount === 0) {
-    document.getElementById('scoreResult').innerHTML = '<div style="margin-top:16px;background:#fefce8;border:1px solid #fef08a;border-radius:8px;padding:12px;color:#854d0e"><strong>⚠ 请先添加周总目标</strong></div>';
-    return;
-  }
+  if (goalCount === 0) { document.getElementById('scoreResult').innerHTML = '<div style="margin-top:16px;background:var(--warning-bg);border:1px solid #ffe58f;border-radius:6px;padding:12px;color:#d48806"><strong>⚠ 请先添加周总目标</strong></div>'; return; }
   if (!allPass) {
-    let html = '<div style="margin-top:16px"><div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px"><strong style="color:#991b1b">❌ 计划校验未通过，无法计算得分，请先修正计划：</strong>';
+    let html = '<div style="margin-top:16px"><div style="background:var(--danger-bg);border:1px solid #ffccc7;border-radius:6px;padding:12px"><strong style="color:#cf1322">❌ 计划校验未通过，无法计算得分：</strong>';
     html += '<ul style="margin-top:8px;padding-left:20px">';
-    results.forEach(r => {
-      if (!r.pass) html += `<li style="color:#dc2626;margin-bottom:4px"><strong>${esc(r.name)}</strong>: ${r.msg}</li>`;
-    });
+    results.forEach(r => { if (!r.pass) html += `<li style="color:var(--danger);margin-bottom:4px"><strong>${esc(r.name)}</strong>: ${r.msg}</li>`; });
     html += '</ul></div></div>';
-    document.getElementById('scoreResult').innerHTML = html;
-    return;
+    document.getElementById('scoreResult').innerHTML = html; return;
   }
-
-  const wdata = getCurrentWeekData();
-  let totalScore = 0;
-  const details = [];
-
+  const wdata = getCurrentWeekData(); let totalScore = 0; const details = [];
   wdata.goals.forEach(g => {
     const baseScoreFull = g.scoreWeight - g.scoreWeight * g.attendanceBonusRatio;
     const bonusScoreFull = g.scoreWeight * g.attendanceBonusRatio;
-
-    const completedQty = wdata.dailyTasks
-      .filter(t => t.goalId === g.goalId && t.isCompleted)
-      .reduce((s,t) => s + t.dailyQuantity, 0);
-
+    const completedQty = wdata.dailyTasks.filter(t => t.goalId === g.goalId && t.isCompleted).reduce((s,t) => s + t.dailyQuantity, 0);
     const effQtyD = getGoalEffectiveQty(g);
     const baseScore = effQtyD > 0 ? (completedQty / effQtyD) * baseScoreFull : 0;
-
-    // Check attendance: all daily tasks for this goal must be completed
     const goalTasks = wdata.dailyTasks.filter(t => t.goalId === g.goalId);
     const allDaysHaveTasks = goalTasks.length > 0;
     const allCompleted = goalTasks.length > 0 && goalTasks.every(t => t.isCompleted);
-    // Also check that tasks cover planned days
     const plannedSum = goalTasks.reduce((s,t) => s + t.dailyQuantity, 0);
     const attendanceBonus = (allCompleted && plannedSum >= effQtyD) ? bonusScoreFull : 0;
-
-    const taskScore = baseScore + attendanceBonus;
-    totalScore += taskScore;
-
-    details.push({
-      name: g.taskName,
-      baseScore: baseScore.toFixed(1),
-      baseFull: baseScoreFull.toFixed(1),
-      bonusScore: attendanceBonus.toFixed(1),
-      bonusFull: bonusScoreFull.toFixed(1),
-      gotBonus: attendanceBonus > 0,
-      total: taskScore.toFixed(1)
-    });
+    const taskScore = baseScore + attendanceBonus; totalScore += taskScore;
+    details.push({ name: g.taskName, baseScore: baseScore.toFixed(1), baseFull: baseScoreFull.toFixed(1), bonusScore: attendanceBonus.toFixed(1), bonusFull: bonusScoreFull.toFixed(1), gotBonus: attendanceBonus > 0, total: taskScore.toFixed(1) });
   });
-
-  let html = '<div style="margin-top:16px">';
-  html += '<div class="score-panel">';
-  html += `<div class="score-total">${totalScore.toFixed(1)}</div>`;
-  html += '<div class="score-label">本周总得分（满分 100 分）</div>';
-  html += '</div>';
-  html += '<div class="score-detail" style="margin-top:16px">';
-  html += '<h4 style="margin-bottom:10px">📋 得分详情</h4>';
+  let html = '<div style="margin-top:16px"><div class="score-panel">';
+  html += `<div class="score-total">${totalScore.toFixed(1)}</div><div class="score-label">本周总得分（满分 100 分）</div></div>`;
+  html += '<div class="score-detail" style="margin-top:16px"><h4 style="margin-bottom:10px">📋 得分详情</h4>';
   html += '<table><thead><tr><th>任务</th><th>基础得分</th><th>全勤奖</th><th>小计</th></tr></thead><tbody>';
   details.forEach(d => {
-    html += `<tr>
-      <td><strong>${esc(d.name)}</strong></td>
-      <td>${d.baseScore} / ${d.baseFull}</td>
-      <td>${d.gotBonus ? '<span class="success-text">+' + d.bonusScore + ' ✓</span>' : '<span class="error-text">0 (未全勤)</span>'} <span style="color:var(--gray-500);font-size:11px">(满分${d.bonusFull})</span></td>
-      <td><strong>${d.total}</strong></td>
-    </tr>`;
+    html += `<tr><td><strong>${esc(d.name)}</strong></td><td>${d.baseScore} / ${d.baseFull}</td>`;
+    html += `<td>${d.gotBonus ? '<span class="success-text">+' + d.bonusScore + ' ✓</span>' : '<span class="error-text">0 (未全勤)</span>'} <span style="color:var(--gray-500);font-size:12px">(满分${d.bonusFull})</span></td>`;
+    html += `<td><strong>${d.total}</strong></td></tr>`;
   });
   html += '</tbody></table></div></div>';
   document.getElementById('scoreResult').innerHTML = html;
 }
 
-// ========== Copy Last Week ==========
 function copyLastWeekPlan() {
-  const lastMonday = new Date(currentMonday);
-  lastMonday.setDate(lastMonday.getDate() - 7);
-  const lastWeekId = getWeekId(lastMonday);
-  const lastData = getWeekData(lastWeekId);
-
-  if (lastData.goals.length === 0) {
-    alert('上周没有计划数据可复制');
-    return;
-  }
-
+  const lastMonday = new Date(currentMonday); lastMonday.setDate(lastMonday.getDate() - 7);
+  const lastWeekId = getWeekId(lastMonday); const lastData = getWeekData(lastWeekId);
+  if (lastData.goals.length === 0) { alert('上周没有计划数据可复制'); return; }
   const wdata = getCurrentWeekData();
-  if (wdata.goals.length > 0) {
-    if (!confirm('当前周已有数据，复制上周计划将覆盖当前数据，确认继续？')) return;
-  }
-
-  const days = getWeekDays(currentMonday);
-  const lastDays = getWeekDays(lastMonday);
-
-  // Map old goal IDs to new ones
+  if (wdata.goals.length > 0) { if (!confirm('当前周已有数据，复制上周计划将覆盖当前数据，确认继续？')) return; }
+  const days = getWeekDays(currentMonday); const lastDays = getWeekDays(lastMonday);
   const idMap = {};
-  const newGoals = lastData.goals.map(g => {
-    const newId = uuid();
-    idMap[g.goalId] = newId;
-    return { ...g, goalId: newId, weekIdentifier: getWeekId(currentMonday) };
-  });
-
-  // Copy daily tasks, mapping dates by day-of-week
+  const newGoals = lastData.goals.map(g => { const newId = uuid(); idMap[g.goalId] = newId; return { ...g, goalId: newId, weekIdentifier: getWeekId(currentMonday) }; });
   const newDailyTasks = lastData.dailyTasks.map(t => {
-    const lastDayIdx = lastDays.findIndex(d => d.date === t.date);
-    if (lastDayIdx < 0) return null;
-    return {
-      ...t,
-      taskId: uuid(),
-      weekIdentifier: getWeekId(currentMonday),
-      goalId: idMap[t.goalId] || t.goalId,
-      date: days[lastDayIdx].date,
-      isCompleted: false
-    };
+    const lastDayIdx = lastDays.findIndex(d => d.date === t.date); if (lastDayIdx < 0) return null;
+    return { ...t, taskId: uuid(), weekIdentifier: getWeekId(currentMonday), goalId: idMap[t.goalId] || t.goalId, date: days[lastDayIdx].date, isCompleted: false };
   }).filter(Boolean);
-
-  wdata.goals = newGoals;
-  wdata.dailyTasks = newDailyTasks;
-  wdata.scoreMode = lastData.scoreMode || false;
-  setCurrentWeekData(wdata);
-  render();
+  wdata.goals = newGoals; wdata.dailyTasks = newDailyTasks; wdata.scoreMode = lastData.scoreMode || false;
+  setCurrentWeekData(wdata); render();
   alert('✅ 已成功复制上周计划！请根据需要修改后保存。');
 }
 
-// ========== Plan Save / Import / Delete ==========
 let importablePlans = [];
-
 function showSavePlanModal() {
   const wdata = getCurrentWeekData();
-  if (wdata.goals.length === 0) {
-    alert('当前周没有计划数据，无法保存');
-    return;
-  }
+  if (wdata.goals.length === 0) { alert('当前周没有计划数据，无法保存'); return; }
   document.getElementById('savePlanName').value = '';
   document.getElementById('savePlanError').textContent = '';
   openModal('savePlanModal');
@@ -2036,97 +1549,44 @@ function showSavePlanModal() {
 async function savePlanToCloud() {
   const planName = document.getElementById('savePlanName').value.trim();
   const errEl = document.getElementById('savePlanError');
-
   if (!planName) { errEl.textContent = '请输入计划名称'; return; }
-
-  // 先校验计划
   const { allPass, goalCount } = validateCurrentWeek();
   if (goalCount === 0) { errEl.textContent = '当前周没有计划数据'; return; }
   if (!allPass) { errEl.textContent = '计划校验未通过，请先在「操作」区点击「校验计划」修正后再保存'; return; }
-
-  if (!giteeConnected) {
-    errEl.textContent = '未配置 Gitee 云同步，请先点击顶部「配置云同步」按钮完成配置';
-    return;
-  }
-
+  if (!giteeConnected) { errEl.textContent = '未配置 Gitee 云同步，请先点击顶部「配置云同步」按钮完成配置'; return; }
   errEl.innerHTML = '<span style="color:var(--warning)">⏳ 正在保存到云端...</span>';
-
-  const wdata = getCurrentWeekData();
-  const weekId = getWeekId(currentMonday);
+  const wdata = getCurrentWeekData(); const weekId = getWeekId(currentMonday);
   const weekLabel = `${currentMonday.getFullYear()}年第${getWeekNumber(currentMonday)}周`;
-
-  const planData = {
-    planName: planName,
-    savedAt: new Date().toISOString(),
-    weekId: weekId,
-    weekLabel: weekLabel,
-    weekData: wdata
-  };
-
-  const cfg = giteeConfig;
-  // 清理文件名中的非法字符
-  const safeName = planName.replace(/[\/\\:*?"<>|]/g, '_');
+  const planData = { planName: planName, savedAt: new Date().toISOString(), weekId: weekId, weekLabel: weekLabel, weekData: wdata };
+  const cfg = giteeConfig; const safeName = planName.replace(/[\/\\:*?"<>|]/g, '_');
   const filePath = `weekPlans/${safeName}.json`;
-  // 显式 URL 编码路径（中文等非 ASCII 字符需要编码）
   const encodedPath = filePath.split('/').map(encodeURIComponent).join('/');
   const url = `https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${encodedPath}`;
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(planData, null, 2))));
-
-  // 检查"weekPlans"目录是否存在，再检查是否有同名文件
   let existingSha = null;
   try {
-    // 第一步：检查"weekPlans"目录是否存在
     const dirUrl = `https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${encodeURIComponent('weekPlans')}?access_token=${cfg.token}&_t=${Date.now()}`;
     const dirRes = await fetch(dirUrl);
-
     if (dirRes.ok) {
-      // 目录存在，查看目录下是否有同名文件
       const dirFiles = await dirRes.json();
       if (Array.isArray(dirFiles)) {
         const existingFile = dirFiles.find(f => f.name === `${safeName}.json`);
         if (existingFile) {
-          // 同名文件存在，获取其 SHA 用于后续覆盖
           const fileRes = await fetch(`${url}?access_token=${cfg.token}`);
-          if (fileRes.ok) {
-            const fileData = await fileRes.json();
-            existingSha = fileData.sha;
-          }
-          if (!confirm(`云端已存在名为"${planName}"的计划，是否覆盖？`)) {
-            errEl.textContent = '';
-            return;
-          }
+          if (fileRes.ok) { const fileData = await fileRes.json(); existingSha = fileData.sha; }
+          if (!confirm(`云端已存在名为“${planName}”的计划，是否覆盖？`)) { errEl.textContent = ''; return; }
         }
       }
     }
-    // dirRes 返回 404：说明"weekPlans"目录不存在，无需检查，直接创建即可
-  } catch (e) { /* 检查异常时直接尝试保存 */ }
-
-  const body = {
-    access_token: cfg.token,
-    content: content,
-    message: `保存计划: ${planName} (${weekLabel})`
-  };
+  } catch (e) { }
+  const body = { access_token: cfg.token, content: content, message: `保存计划: ${planName} (${weekLabel})` };
   if (existingSha) body.sha = existingSha;
-
   try {
-    const res = await fetch(url, {
-      method: existingSha ? 'PUT' : 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-
-    if (!res.ok) {
-      const errText = await res.text().catch(() => '');
-      let errMsg = `HTTP ${res.status}`;
-      try { const errData = JSON.parse(errText); errMsg = errData.message || errMsg; } catch {}
-      throw new Error(errMsg);
-    }
-
+    const res = await fetch(url, { method: existingSha ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!res.ok) { const errText = await res.text().catch(() => ''); let errMsg = `HTTP ${res.status}`; try { const errData = JSON.parse(errText); errMsg = errData.message || errMsg; } catch {} throw new Error(errMsg); }
     errEl.innerHTML = '<span style="color:var(--success)">✅ 计划已成功保存到云端！</span>';
     setTimeout(() => closeModal('savePlanModal'), 1500);
-  } catch (e) {
-    errEl.innerHTML = `<span style="color:var(--danger)">❌ 保存失败: ${esc(e.message || '未知错误')}</span>`;
-  }
+  } catch (e) { errEl.innerHTML = `<span style="color:var(--danger)">❌ 保存失败: ${esc(e.message || '未知错误')}</span>`; }
 }
 
 async function showImportPlanModal() {
@@ -2134,252 +1594,97 @@ async function showImportPlanModal() {
   document.getElementById('importPlanLoading').style.display = 'block';
   document.getElementById('importPlanError').textContent = '';
   openModal('importPlanModal');
-
-  if (!giteeConnected) {
-    document.getElementById('importPlanLoading').style.display = 'none';
-    document.getElementById('importPlanError').textContent = '未配置 Gitee 云同步，请先点击顶部「配置云同步」按钮完成配置';
-    return;
-  }
-
+  if (!giteeConnected) { document.getElementById('importPlanLoading').style.display = 'none'; document.getElementById('importPlanError').textContent = '未配置 Gitee 云同步'; return; }
   const plans = await listPlanFiles();
   document.getElementById('importPlanLoading').style.display = 'none';
-
-  if (plans === null) {
-    document.getElementById('importPlanError').textContent = '加载失败，请检查 Gitee 连接配置或网络';
-    return;
-  }
-
+  if (plans === null) { document.getElementById('importPlanError').textContent = '加载失败，请检查 Gitee 连接配置或网络'; return; }
   importablePlans = plans;
-
-  if (plans.length === 0) {
-    document.getElementById('importPlanList').innerHTML = '<div class="empty-state" style="padding:20px"><p>云端"weekPlans"目录中暂无已保存的计划</p></div>';
-    return;
-  }
-
+  if (plans.length === 0) { document.getElementById('importPlanList').innerHTML = '<div class="empty-state" style="padding:20px"><p>云端“weekPlans”目录中暂无已保存的计划</p></div>'; return; }
   let html = '';
   plans.forEach((p, i) => {
     const savedTime = p.savedAt ? new Date(p.savedAt).toLocaleString('zh-CN') : '未知';
-    html += `<div class="plan-list-item">
-      <div style="flex:1;min-width:0">
-        <div class="plan-name">${esc(p.planName)}</div>
-        <div class="plan-meta">${esc(p.weekLabel || '')} · 保存于 ${esc(savedTime)}</div>
-      </div>
-      <div class="plan-actions">
-        <button class="btn btn-primary btn-sm" onclick="importPlanByIndex(${i})" data-tip="将此计划导入到当前周，会覆盖现有数据">📥 导入</button>
-        <button class="btn btn-danger btn-sm" onclick="deletePlanByIndex(${i})" data-tip="从云端永久删除此计划">🗑 删除</button>
-      </div>
-    </div>`;
+    html += `<div class="plan-list-item"><div style="flex:1;min-width:0"><div class="plan-name">${esc(p.planName)}</div><div class="plan-meta">${esc(p.weekLabel || '')} · 保存于 ${esc(savedTime)}</div></div><div class="plan-actions"><button class="btn btn-primary btn-sm" onclick="importPlanByIndex(${i})" data-tip="将此计划导入到当前周">📥 导入</button><button class="btn btn-danger btn-sm" onclick="deletePlanByIndex(${i})" data-tip="从云端永久删除此计划">🗑 删除</button></div></div>`;
   });
   document.getElementById('importPlanList').innerHTML = html;
 }
 
 async function listPlanFiles() {
-  if (!giteeConnected) return null;
-  const cfg = giteeConfig;
-
+  if (!giteeConnected) return null; const cfg = giteeConfig;
   try {
     const res = await fetch(`https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${encodeURIComponent('weekPlans')}?access_token=${cfg.token}&_t=${Date.now()}`);
-
-    if (res.status === 404) return [];
-    if (!res.ok) return null;
-
-    const files = await res.json();
-    if (!Array.isArray(files)) return [];
-
+    if (res.status === 404) return []; if (!res.ok) return null;
+    const files = await res.json(); if (!Array.isArray(files)) return [];
     const plans = [];
     for (const file of files) {
       if (!file.name || !file.name.endsWith('.json')) continue;
       try {
         const fileRes = await fetch(`${file.url}?access_token=${cfg.token}`);
-        if (fileRes.ok) {
-          const fileData = await fileRes.json();
-          if (fileData.content) {
-            const decoded = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ''))));
-            const plan = JSON.parse(decoded);
-            plans.push({
-              fileName: file.name,
-              planName: plan.planName || file.name.replace('.json', ''),
-              weekLabel: plan.weekLabel || '',
-              savedAt: plan.savedAt || '',
-              planData: plan
-            });
-          }
-        }
-      } catch (e) {
-        // 文件解析失败，仍显示在列表中
-        plans.push({
-          fileName: file.name,
-          planName: file.name.replace('.json', ''),
-          weekLabel: '',
-          savedAt: '',
-          planData: null
-        });
-      }
+        if (fileRes.ok) { const fileData = await fileRes.json(); if (fileData.content) { const decoded = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, '')))); const plan = JSON.parse(decoded); plans.push({ fileName: file.name, planName: plan.planName || file.name.replace('.json', ''), weekLabel: plan.weekLabel || '', savedAt: plan.savedAt || '', planData: plan }); } }
+      } catch (e) { plans.push({ fileName: file.name, planName: file.name.replace('.json', ''), weekLabel: '', savedAt: '', planData: null }); }
     }
-
-    plans.sort((a, b) => (b.savedAt || '').localeCompare(a.savedAt || ''));
-    return plans;
-  } catch (e) {
-    console.error('[List Plans] Failed:', e);
-    return null;
-  }
+    plans.sort((a, b) => (b.savedAt || '').localeCompare(a.savedAt || '')); return plans;
+  } catch (e) { console.error('[List Plans] Failed:', e); return null; }
 }
 
-function importPlanByIndex(idx) {
-  const plan = importablePlans[idx];
-  if (plan) importPlan(plan.fileName);
-}
+function importPlanByIndex(idx) { const plan = importablePlans[idx]; if (plan) importPlan(plan.fileName); }
 
 async function importPlan(fileName) {
   if (!giteeConnected) { alert('未配置 Gitee 云同步'); return; }
-
   const wdata = getCurrentWeekData();
-  if (wdata.goals.length > 0 || wdata.dailyTasks.length > 0) {
-    if (!confirm('导入计划将覆盖当前周的所有计划数据，确认继续？')) return;
-  }
-
+  if (wdata.goals.length > 0 || wdata.dailyTasks.length > 0) { if (!confirm('导入计划将覆盖当前周的所有计划数据，确认继续？')) return; }
   const cfg = giteeConfig;
   const encodedFilePath = `${encodeURIComponent('weekPlans')}/${encodeURIComponent(fileName)}`;
   const url = `https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${encodedFilePath}?access_token=${cfg.token}`;
-
   try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('获取计划文件失败');
-
-    const fileData = await res.json();
-    if (!fileData.content) throw new Error('计划内容为空');
-
+    const res = await fetch(url); if (!res.ok) throw new Error('获取计划文件失败');
+    const fileData = await res.json(); if (!fileData.content) throw new Error('计划内容为空');
     const decoded = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ''))));
     const plan = JSON.parse(decoded);
-
-    if (!plan.weekData || !plan.weekData.goals) {
-      throw new Error('计划数据格式不正确，缺少 goals 字段');
-    }
-
-    // 为新导入的计划生成新的 ID，避免与已有数据冲突
+    if (!plan.weekData || !plan.weekData.goals) throw new Error('计划数据格式不正确');
     const idMap = {};
-    const newGoals = plan.weekData.goals.map(g => {
-      const newId = uuid();
-      idMap[g.goalId] = newId;
-      return { ...g, goalId: newId, weekIdentifier: getWeekId(currentMonday) };
-    });
-
-    const newDailyTasks = (plan.weekData.dailyTasks || []).map(t => ({
-      ...t,
-      taskId: uuid(),
-      weekIdentifier: getWeekId(currentMonday),
-      goalId: idMap[t.goalId] || t.goalId,
-      isCompleted: false
-    }));
-
-    wdata.goals = newGoals;
-    wdata.dailyTasks = newDailyTasks;
-    wdata.scoreMode = plan.weekData.scoreMode || false;
-    setCurrentWeekData(wdata);
-
-    closeModal('importPlanModal');
-    render();
-    alert(`✅ 已成功导入计划"${plan.planName || fileName}"！`);
-  } catch (e) {
-    alert('❌ 导入失败: ' + (e.message || '未知错误'));
-  }
+    const newGoals = plan.weekData.goals.map(g => { const newId = uuid(); idMap[g.goalId] = newId; return { ...g, goalId: newId, weekIdentifier: getWeekId(currentMonday) }; });
+    const newDailyTasks = (plan.weekData.dailyTasks || []).map(t => ({ ...t, taskId: uuid(), weekIdentifier: getWeekId(currentMonday), goalId: idMap[t.goalId] || t.goalId, isCompleted: false }));
+    wdata.goals = newGoals; wdata.dailyTasks = newDailyTasks; wdata.scoreMode = plan.weekData.scoreMode || false;
+    setCurrentWeekData(wdata); closeModal('importPlanModal'); render();
+    alert(`✅ 已成功导入计划“${plan.planName || fileName}”！`);
+  } catch (e) { alert('❌ 导入失败: ' + (e.message || '未知错误')); }
 }
 
-function deletePlanByIndex(idx) {
-  const plan = importablePlans[idx];
-  if (plan) deletePlanConfirm(plan.fileName, plan.planName);
-}
-
-function deletePlanConfirm(fileName, planName) {
-  if (!confirm(`确认删除计划"${planName}"？\n\n此操作不可撤销，将从云端永久删除该计划。`)) return;
-  deletePlanFromCloud(fileName);
-}
+function deletePlanByIndex(idx) { const plan = importablePlans[idx]; if (plan) deletePlanConfirm(plan.fileName, plan.planName); }
+function deletePlanConfirm(fileName, planName) { if (!confirm(`确认删除计划“${planName}”？\n\n此操作不可撤销，将从云端永久删除该计划。`)) return; deletePlanFromCloud(fileName); }
 
 async function deletePlanFromCloud(fileName) {
-  if (!giteeConnected) return;
-
-  const cfg = giteeConfig;
+  if (!giteeConnected) return; const cfg = giteeConfig;
   const encodedFilePath = `${encodeURIComponent('weekPlans')}/${encodeURIComponent(fileName)}`;
   const url = `https://gitee.com/api/v5/repos/${cfg.owner}/${cfg.repo}/contents/${encodedFilePath}?access_token=${cfg.token}`;
-
   try {
-    // 先获取文件 SHA
-    const getRes = await fetch(url);
-    if (!getRes.ok) throw new Error('获取文件信息失败');
+    const getRes = await fetch(url); if (!getRes.ok) throw new Error('获取文件信息失败');
     const fileData = await getRes.json();
-
-    const deleteRes = await fetch(url, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_token: cfg.token,
-        message: `删除计划: ${fileName}`,
-        sha: fileData.sha
-      })
-    });
-
-    if (!deleteRes.ok) {
-      const errText = await deleteRes.text().catch(() => '');
-      throw new Error(errText.slice(0, 200));
-    }
-
-    // 刷新计划列表
+    const deleteRes = await fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ access_token: cfg.token, message: `删除计划: ${fileName}`, sha: fileData.sha }) });
+    if (!deleteRes.ok) { const errText = await deleteRes.text().catch(() => ''); throw new Error(errText.slice(0, 200)); }
     showImportPlanModal();
-  } catch (e) {
-    alert('❌ 删除失败: ' + (e.message || '未知错误'));
-  }
+  } catch (e) { alert('❌ 删除失败: ' + (e.message || '未知错误')); }
 }
 
-// ========== Modal Helpers ==========
 function openModal(id) { document.getElementById(id).classList.add('active'); }
-function closeModal(id) {
-  document.getElementById(id).classList.remove('active');
-  // Reset select disabled state
-  const sel = document.getElementById('dailyGoalSelect');
-  if (sel) sel.disabled = false;
-}
+function closeModal(id) { document.getElementById(id).classList.remove('active'); const sel = document.getElementById('dailyGoalSelect'); if (sel) sel.disabled = false; }
+document.querySelectorAll('.modal-overlay').forEach(el => { el.addEventListener('click', (e) => { if (e.target === el) closeModal(el.id); }); });
 
-// Close modal on overlay click
-document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', (e) => {
-    if (e.target === el) closeModal(el.id);
-  });
-});
-
-// ========== Init ==========
 (async function init() {
-  await initStorage();
-  render();
-
-  // 页面加载时自动校验当前周计划
+  await initStorage(); render();
   if (!isReadonly()) {
     const { allPass, results, goalCount } = validateCurrentWeek();
     if (goalCount > 0 && !allPass) {
-      // 延迟弹窗，等页面渲染完成
       setTimeout(() => {
         const weekLabel = document.getElementById('weekLabel').textContent;
-        let msg = `⚠️ 当前周计划「${weekLabel}」校验未通过，请调整计划设置：\n\n`;
-        results.forEach(r => {
-          if (!r.pass) msg += `• ${r.name}：${r.msg}\n`;
-        });
+        let msg = `⚠️ 当前周计划「${weekLabel}」校验未通过：\n\n`;
+        results.forEach(r => { if (!r.pass) msg += `• ${r.name}：${r.msg}\n`; });
         alert(msg);
       }, 500);
     }
   }
-
-  // 定时自动拉取（每60秒），保持数据最新
-  setInterval(() => {
-    if (giteeConnected && !document.hidden) {
-      forceSyncFromGitee();
-    }
-  }, 60000);
-
-  // 页面重新获得焦点时立即同步
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && giteeConnected) {
-      forceSyncFromGitee();
-    }
-  });
+  setInterval(() => { if (giteeConnected && !document.hidden) { forceSyncFromGitee(); } }, 60000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && giteeConnected) { forceSyncFromGitee(); } });
 })();
 </script>
 </body>
