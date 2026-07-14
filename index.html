@@ -489,7 +489,7 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
     <div class="storage-actions">
       <button class="btn btn-primary btn-sm" onclick="showGiteeConfigModal()" data-tip="配置 Gitee 仓库信息，实现跨设备云同步">☁️ 配置云同步</button>
       <button class="btn btn-outline btn-sm" id="btnSyncNow" onclick="forceSyncFromGitee()" style="display:none" data-tip="立即从 Gitee 拉取最新数据">🔄 同步</button>
-      <button class="btn btn-outline btn-sm" id="btnExportData" onclick="exportDataToFile()" style="display:none" data-tip="将所有周计划数据下载为 JSON 文件，可用于备份">📥 导出</button>
+      <button class="btn btn-outline btn-sm" id="btnExportData" onclick="exportDataToFile()" style="display:none" data-tip="将所有周的原生确定性计划数据下载为 JSON 文件，可用于备份">📥 导出</button>
     </div>
   </div>
 
@@ -520,9 +520,10 @@ tr.drag-over-bottom { box-shadow: inset 0 -3px 0 0 var(--primary); }
     <div class="card-title" data-tip="设定本周要完成的目标任务，包括名称、总量和计量单位"><span class="icon">🎯</span> 周总目标</div>
     <div class="toolbar" id="goalsToolbar">
       <button class="btn btn-primary" id="btnAddGoal" onclick="showAddGoalModal()" data-tip="添加一个新的周总目标，需填写任务名称、目标总量和计量单位">＋ 添加目标</button>
-      <button class="btn btn-outline" id="btnCopyLastWeek" onclick="copyLastWeekPlan()" data-tip="将上一周的周总目标和每日任务分配完整复制到当前周，日期按星期自动映射">📋 复制上周计划</button>
+      <button class="btn btn-outline" id="btnCopyLastWeek" onclick="copyLastWeekPlan()" data-tip="将上一周的原生确定性计划和每日任务分配复制到当前周，日期按星期自动映射">📋 复制上周计划</button>
       <button class="btn btn-outline" id="btnSavePlan" onclick="showSavePlanModal()" data-tip="将当前周计划校验后保存到云端周计划库，所有周（含只读历史周）均可保存为模板">💾 保存计划</button>
-      <button class="btn btn-outline" id="btnImportPlan" onclick="showImportPlanModal()" data-tip="从云端周计划库中选择一个已保存的计划模板，导入并覆盖当前周的数据">📥 导入计划</button>
+      <button class="btn btn-outline" id="btnImportPlan" onclick="showImportPlanModal()" data-tip="从云端周计划库中选择一个已保存的计划模板，导入其中的原生确定性计划到当前周">📥 导入计划</button>
+      <button class="btn btn-outline" id="btnClearNativePlans" onclick="clearNativePlans()" style="color:var(--danger);border-color:var(--danger)" data-tip="清空当前周所有原生确定性计划及其每日任务，需二次确认">🗑 清除计划</button>
       <div class="toggle-wrap" id="scoreToggleWrap" style="margin-left:auto" data-tip="开启后需为每项任务设置分数权重(总和=100)和全勤奖比例，保存时每日任务量须严格等于目标量">        <span style="font-size:13px;font-weight:600">评分模式</span>
         <div class="toggle" id="scoreToggle" onclick="toggleScoreMode()"></div>
       </div>
@@ -1170,8 +1171,17 @@ async function forceSyncFromGitee() {
 
 // --- Export data as downloadable file ---
 function exportDataToFile() {
-  const data = loadAllData();
-  const json = JSON.stringify(data, null, 2);
+  const allData = loadAllData();
+  // 只导出原生确定性计划及其关联的每日任务
+  const filtered = {};
+  for (const [weekId, wdata] of Object.entries(allData)) {
+    const nativeGoals = (wdata.goals || []).filter(g => g.taskType === 'deterministic' && g.taskSubtype === 'native');
+    if (nativeGoals.length === 0) continue;
+    const nativeGoalIds = new Set(nativeGoals.map(g => g.goalId));
+    const nativeDailyTasks = (wdata.dailyTasks || []).filter(t => nativeGoalIds.has(t.goalId));
+    filtered[weekId] = { ...wdata, goals: nativeGoals, dailyTasks: nativeDailyTasks };
+  }
+  const json = JSON.stringify(filtered, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -1250,6 +1260,7 @@ function render() {
   document.getElementById('btnAddGoal').style.display = readonly ? 'none' : 'inline-flex';
   document.getElementById('btnCopyLastWeek').style.display = readonly ? 'none' : 'inline-flex';
   document.getElementById('btnImportPlan').style.display = readonly ? 'none' : 'inline-flex';
+  document.getElementById('btnClearNativePlans').style.display = readonly ? 'none' : 'inline-flex';
   document.getElementById('scoreToggleWrap').style.display = readonly ? 'none' : 'flex';
   document.getElementById('dailyToolbar').style.display = readonly ? 'none' : 'flex';
   document.getElementById('btnSave').style.display = readonly ? 'none' : 'inline-flex';
@@ -2126,35 +2137,55 @@ function calculateScore() {
 }
 
 // ========== Copy Last Week ==========
+function clearNativePlans() {
+  const wdata = getCurrentWeekData();
+  const nativeGoals = wdata.goals.filter(g => g.taskType === 'deterministic' && g.taskSubtype === 'native');
+  if (nativeGoals.length === 0) {
+    alert('当前周没有原生确定性计划，无需清除');
+    return;
+  }
+  if (!confirm(`当前周有 ${nativeGoals.length} 个原生确定性计划，清除后将删除其关联的每日任务，确认继续？`)) return;
+
+  const nativeGoalIds = new Set(nativeGoals.map(g => g.goalId));
+  wdata.goals = wdata.goals.filter(g => !(g.taskType === 'deterministic' && g.taskSubtype === 'native'));
+  wdata.dailyTasks = wdata.dailyTasks.filter(t => !nativeGoalIds.has(t.goalId));
+  setCurrentWeekData(wdata);
+  render();
+  alert('✅ 已清除所有原生确定性计划及关联的每日任务');
+}
+
 function copyLastWeekPlan() {
   const lastMonday = new Date(currentMonday);
   lastMonday.setDate(lastMonday.getDate() - 7);
   const lastWeekId = getWeekId(lastMonday);
   const lastData = getWeekData(lastWeekId);
 
-  if (lastData.goals.length === 0) {
-    alert('上周没有计划数据可复制');
+  // 只筛选原生确定性计划
+  const nativeGoals = lastData.goals.filter(g => g.taskType === 'deterministic' && g.taskSubtype === 'native');
+  if (nativeGoals.length === 0) {
+    alert('上周没有原生确定性计划可复制');
     return;
   }
 
   const wdata = getCurrentWeekData();
-  if (wdata.goals.length > 0) {
-    if (!confirm('当前周已有数据，复制上周计划将覆盖当前数据，确认继续？')) return;
+  if (wdata.goals.some(g => g.taskType === 'deterministic' && g.taskSubtype === 'native')) {
+    if (!confirm('当前周已有原生确定性计划，复制将覆盖这些计划，确认继续？')) return;
   }
 
   const days = getWeekDays(currentMonday);
   const lastDays = getWeekDays(lastMonday);
 
-  // Map old goal IDs to new ones
+  // Map old goal IDs to new ones (only native deterministic)
   const idMap = {};
-  const newGoals = lastData.goals.map(g => {
+  const newGoals = nativeGoals.map(g => {
     const newId = uuid();
     idMap[g.goalId] = newId;
     return { ...g, goalId: newId, weekIdentifier: getWeekId(currentMonday) };
   });
 
-  // Copy daily tasks, mapping dates by day-of-week
-  const newDailyTasks = lastData.dailyTasks.map(t => {
+  // 只复制原生确定性计划关联的每日任务，按星期映射日期
+  const nativeGoalIds = new Set(nativeGoals.map(g => g.goalId));
+  const newDailyTasks = lastData.dailyTasks.filter(t => nativeGoalIds.has(t.goalId)).map(t => {
     const lastDayIdx = lastDays.findIndex(d => d.date === t.date);
     if (lastDayIdx < 0) return null;
     return {
@@ -2167,12 +2198,18 @@ function copyLastWeekPlan() {
     };
   }).filter(Boolean);
 
-  wdata.goals = newGoals;
-  wdata.dailyTasks = newDailyTasks;
-  wdata.scoreMode = lastData.scoreMode || false;
+  // 移除当前周已有的原生确定性计划及其每日任务，再追加新的
+  const oldNativeIds = new Set(
+    wdata.goals.filter(g => g.taskType === 'deterministic' && g.taskSubtype === 'native').map(g => g.goalId)
+  );
+  wdata.goals = wdata.goals.filter(g => !oldNativeIds.has(g.goalId));
+  wdata.dailyTasks = wdata.dailyTasks.filter(t => !oldNativeIds.has(t.goalId));
+
+  wdata.goals = wdata.goals.concat(newGoals);
+  wdata.dailyTasks = wdata.dailyTasks.concat(newDailyTasks);
   setCurrentWeekData(wdata);
   render();
-  alert('✅ 已成功复制上周计划！请根据需要修改后保存。');
+  alert('✅ 已成功复制上周原生确定性计划！请根据需要修改后保存。');
 }
 
 // ========== Plan Save / Import / Delete ==========
@@ -2391,7 +2428,7 @@ async function importPlan(fileName) {
 
   const wdata = getCurrentWeekData();
   if (wdata.goals.length > 0 || wdata.dailyTasks.length > 0) {
-    if (!confirm('导入计划将覆盖当前周的所有计划数据，确认继续？')) return;
+    if (!confirm('导入计划将覆盖当前周的原生确定性计划，确认继续？')) return;
   }
 
   const cfg = giteeConfig;
@@ -2412,15 +2449,22 @@ async function importPlan(fileName) {
       throw new Error('计划数据格式不正确，缺少 goals 字段');
     }
 
+    // 只导入原生确定性计划
+    const importedNativeGoals = (plan.weekData.goals || []).filter(g => g.taskType === 'deterministic' && g.taskSubtype === 'native');
+    if (importedNativeGoals.length === 0) {
+      throw new Error('该计划中没有原生确定性任务可导入');
+    }
+
     // 为新导入的计划生成新的 ID，避免与已有数据冲突
     const idMap = {};
-    const newGoals = plan.weekData.goals.map(g => {
+    const newGoals = importedNativeGoals.map(g => {
       const newId = uuid();
       idMap[g.goalId] = newId;
       return { ...g, goalId: newId, weekIdentifier: getWeekId(currentMonday) };
     });
 
-    const newDailyTasks = (plan.weekData.dailyTasks || []).map(t => ({
+    const importedGoalIds = new Set(importedNativeGoals.map(g => g.goalId));
+    const newDailyTasks = (plan.weekData.dailyTasks || []).filter(t => importedGoalIds.has(t.goalId)).map(t => ({
       ...t,
       taskId: uuid(),
       weekIdentifier: getWeekId(currentMonday),
@@ -2428,9 +2472,15 @@ async function importPlan(fileName) {
       isCompleted: false
     }));
 
-    wdata.goals = newGoals;
-    wdata.dailyTasks = newDailyTasks;
-    wdata.scoreMode = plan.weekData.scoreMode || false;
+    // 移除当前周已有的原生确定性计划及其每日任务，再追加新的
+    const oldNativeIds = new Set(
+      wdata.goals.filter(g => g.taskType === 'deterministic' && g.taskSubtype === 'native').map(g => g.goalId)
+    );
+    wdata.goals = wdata.goals.filter(g => !oldNativeIds.has(g.goalId));
+    wdata.dailyTasks = wdata.dailyTasks.filter(t => !oldNativeIds.has(t.goalId));
+
+    wdata.goals = wdata.goals.concat(newGoals);
+    wdata.dailyTasks = wdata.dailyTasks.concat(newDailyTasks);
     setCurrentWeekData(wdata);
 
     closeModal('importPlanModal');
