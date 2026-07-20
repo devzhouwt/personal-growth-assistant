@@ -1432,7 +1432,9 @@ function renderDailyTasks(wdata, days, readonly) {
     let sum = 0;
     days.forEach((d,i) => {
       const task = wdata.dailyTasks.find(t => t.goalId === g.goalId && t.date === d.date);
-      const isToday = formatDate(new Date()) === d.date;
+      const todayStr = formatDate(new Date());
+      const isToday = todayStr === d.date;
+      const isPast = d.date < todayStr;
       if (task) {
         sum += task.dailyQuantity;
         const checked = task.isCompleted ? 'checked' : '';
@@ -1442,6 +1444,8 @@ function renderDailyTasks(wdata, days, readonly) {
         const isExploratory = g.taskType === 'exploratory';
         // 根据任务类型确定单元格背景色
         const taskTypeBg = isExploratory ? '#e9e4fd' : (isFourEl ? '#d6eafa' : '#d4f5d4');
+        // 过去日期且未完成的任务，用浅红色覆盖任务类型背景色
+        const cellBg = (isPast && !task.isCompleted) ? '#fde2e2' : taskTypeBg;
         // 确定备注显示内容：优先自身备注，其次回退到周任务备注（探索性）或四要素信息（四要素确定性）
         let remarkText = task.remark || '';
         if (!remarkText) {
@@ -1470,7 +1474,7 @@ function renderDailyTasks(wdata, days, readonly) {
         const remarkHtml = remarkText
           ? `<span class="remark-icon" data-tip="存在备注"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span>`
           : '<span style="color:var(--gray-300)">—</span>';
-        html += `<td style="text-align:center;background:${taskTypeBg};" class="${isToday?'today-col':''}">
+        html += `<td style="text-align:center;background:${cellBg};" class="${isToday?'today-col':''}">
           <div class="daily-cell"${cellTip}>
             <div class="task-row">
               <span class="task-qty">${task.dailyQuantity}<span class="qty-unit">(${unit})</span></span>`;
